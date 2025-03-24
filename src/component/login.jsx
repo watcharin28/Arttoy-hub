@@ -1,30 +1,32 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 export default function Login() {
     const [phonenumber, setPhonenumber] = useState('');
     const [password, setPassword] = useState('');
-
-    // async function handlesumit(e){
-    //     e.preventDefault();
-    //     try {
-    //         const response = await axios.post(`${process.env.BASE_URL}/Login`,{
-    //             phonenumber,
-    //             password
-    //         });
-    //         console.log('Login Successful:', response.data);     
-    //     }
-    //     catch (error) {
-    //         console.log('Login Failed:', error); 
-    //     }
-    // }
+    const navigate = useNavigate();
+    async function handleSubmit(e){
+        e.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:8080/login`,{
+                phonenumber,
+                password
+            });
+            console.log('Login Successful:', response.data);     
+            navigate('/');
+        }
+        
+        catch (error) {
+            console.log('Login Failed:', error); 
+        }
+    }
 
     return (
 
         <div className="bg-yellow-200 min-h-screen flex items-center justify-end px-8">
             <div className="p-12 bg-white rounded-2xl shadow-lg w-96 ">
                 <h1 className="text-3xl font-bold text-left mb-6">Log in</h1>
-                <form /*onSubmit={handleSubmit}*/>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <h1 className='text-gray-500'>Phone Number</h1>
                         <input
