@@ -8,14 +8,14 @@ export default function Login() {
     async function handleSubmit(e){
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/login`,{
+            const response = await axios.post(`http://localhost:8080/Login`,{
                 phonenumber,
                 password
             });
             console.log('Login Successful:', response.data);     
+
             navigate('/');
         }
-        
         catch (error) {
             console.log('Login Failed:', error); 
         }
@@ -45,16 +45,13 @@ export default function Login() {
                             className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
                         />
                     </div>
-                    {/* <div className="text-right mb-4">
-                            <a href="#" className="text-blue-500 text-sm">Forgot Password?</a>
-                        </div>
-                
                     <p className="text-center text-sm text-gray-500 mt-4">
-                        Don't have an account? <a href="#" className="text-blue-500">Register</a>
-                    </p> */}
+                        Don't have an account? <a href="/Register" className="text-blue-500">Register</a>
+                    </p> 
                     <button
                         type='submit'
-                        className="w-full p-3 bg-violet-400 text-white rounded hover:bg-blue-600 transition"
+                        className="w-full p-3 bg-violet-400 text-white rounded hover:bg-violet-600 transition"
+
                     >
                         Login
                     </button>
