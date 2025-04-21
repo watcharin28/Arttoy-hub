@@ -1,38 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// export default function Register() {
-//   const [Username, setUsername] = useState('');
-//   const [Email, setEmail] = useState('');
-//   const [Phonenumber, setPhonenumber] = useState('');
-//   const [Password, setPassword] = useState('');
-//   const [ConfirmPassword, setConfirmPassword] = useState('');
-//   const [errors, setErrors] = useState({}); // เก็บ error สำหรับแต่ละ field
-//   const navigate = useNavigate();
-
-//   async function handleSubmit(e) {
-//     e.preventDefault();
-//     setErrors({}); // รีเซ็ต error ก่อนส่ง
-//     try {
-//       const response = await axios.post(`http://localhost:8080/register`, {
-//         username: Username,
-//         gmail: Email,
-//         phonenumber: Phonenumber,
-//         password: Password,
-//         confirmPassword: ConfirmPassword
-//       });
-//       console.log('Register Successful:', response.data);
-//       // ทำอะไรต่อหลังสมัครสำเร็จ เช่น redirect
-//       navigate('/login');
-//     } catch (error) {
-//       if (error.response && error.response.data) {
-//         const { error: message, field, details } = error.response.data;
-//         setErrors({ [field || 'general']: message || details || 'Something went wrong' });
-//       } else {
-//         setErrors({ general: 'Network error, please try again' });
-//       }
-//     }
-//   }
 
 //   return (
 //     <div className="bg-yellow-200 min-h-screen flex items-center justify-end px-8">
@@ -113,14 +81,13 @@ export default function Register() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  // function handleChange(e) {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  //   setError('');
-  // }
+
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+
 
     if (Password !== ConfirmPassword) {
       setError('Passwords do not match');
@@ -209,7 +176,6 @@ export default function Register() {
           </div>
           <button type="submit" className="w-full mt-4">Sign Up</button>
         </form>
-
       </div>
     </div>
   );
