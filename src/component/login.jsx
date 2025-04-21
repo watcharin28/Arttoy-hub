@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 export default function Login() {
     const [phonenumber, setPhonenumber] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    async function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Login`,{
+            const response = await axios.post(`http://localhost:8080/Login`, {
                 phonenumber,
                 password
-            });
-            console.log('Login Successful:', response.data);     
+            },
+                { withCredentials: true });
 
-            navigate('/');
+            console.log('Login Successful:', response.data);
+
+            navigate('/user/profile');
         }
         catch (error) {
-            console.log('Login Failed:', error); 
+            console.log('Login Failed:', error);
         }
     }
 
@@ -47,7 +50,7 @@ export default function Login() {
                     </div>
                     <p className="text-center text-sm text-gray-500 mt-4">
                         Don't have an account? <a href="/Register" className="text-blue-500">Register</a>
-                    </p> 
+                    </p>
                     <button
                         type='submit'
                         className="w-full p-3 bg-violet-400 text-white rounded hover:bg-violet-600 transition"
