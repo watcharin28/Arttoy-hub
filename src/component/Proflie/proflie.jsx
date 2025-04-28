@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 export default function Profile() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [gmail, setGmail] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
   const [profileImage, setProfileImage] = useState('/images/AThub.png');
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export default function Profile() {
           
         });
         setUsername(response.data.username || '');
-        setEmail(response.data.gmail || '');
+        setGmail(response.data.gmail || '');
         setPhonenumber(response.data.phonenumber || '');
         setProfileImage(response.data.profile_image || '/images/AThub.png');
       } catch (err) {
@@ -47,7 +47,7 @@ export default function Profile() {
           </p>
           <p>
             <span className="text-gray-500">Email : </span>
-            <span className="font-bold p-2">{email}</span>
+            <span className="font-bold p-2">{gmail}</span>
           </p>
           <p>
             <span className="text-gray-500">Phone Number :</span>
