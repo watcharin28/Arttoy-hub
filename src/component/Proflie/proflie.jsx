@@ -11,16 +11,19 @@ export default function Profile() {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-  const user_id = Cookies.get('user_id');
+
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/${user_id}`);
+        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
+          withCredentials: true, //  ต้องใส่ตัวนี้เพื่อส่ง cookie
+          
+        });
         setUsername(response.data.username || '');
-        setEmail(response.data.email || '');
+        setEmail(response.data.gmail || '');
         setPhonenumber(response.data.phonenumber || '');
-        setProfileImage(response.data.profileImage || '/images/AThub.png');
+        setProfileImage(response.data.profile_image || '/images/AThub.png');
       } catch (err) {
         console.error(err);
         setError('Unable to load profile data.');
@@ -28,7 +31,7 @@ export default function Profile() {
     };
 
     fetchProfile();
-  }, [user_id]);
+  }, );
 
   return (
     <div>

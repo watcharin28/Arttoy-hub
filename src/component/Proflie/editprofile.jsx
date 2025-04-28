@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 export default function EditProfile() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [gmail, setGmail] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
@@ -13,16 +13,19 @@ export default function EditProfile() {
   const [success, setSuccess] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const user_id = Cookies.get('user_id');
+  // const user_id = Cookies.get('user_id');
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/${user_id}`);
+        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
+          withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
+          
+        });
         setUsername(response.data.username || '');
-        setEmail(response.data.email || '');
+        setGmail(response.data.gmail || '');
         setPhonenumber(response.data.phonenumber || '');
-        setPreviewImage(response.data.profileImage || null);
+        setPreviewImage(response.data.profile_image || null);
       } catch (err) {
         console.error(err);
         setError('Unable to load profile data.');
@@ -30,7 +33,7 @@ export default function EditProfile() {
     };
 
     fetchProfile();
-  }, [user_id]);
+  }, );
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -51,24 +54,25 @@ export default function EditProfile() {
 
     const formData = new FormData();
     formData.append('username', username);
-    formData.append('email', email);
+    formData.append('gmail', gmail);
     formData.append('phonenumber', phonenumber);
 
     if (imageFile) {
-      formData.append('profileImage', imageFile);
+      formData.append('profile_image', imageFile);
     }
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/user/${user_id}`, formData, {
+      const response = await axios.put(`http://localhost:8080/api/user/Profile`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
 
       if (response.data.message === 'Update Successful') {
         setSuccess(true);
         setTimeout(() => {
-          navigate('/profile'); // ไปที่หน้า Profile หลังการอัปเดต
+          navigate('/Profile'); // ไปที่หน้า Profile หลังการอัปเดต
         }, 2000);
       } else {
         setError(response.data.error || 'Failed to update profile.');
@@ -109,10 +113,10 @@ export default function EditProfile() {
           <div>
             <label className="block text-sm font-medium mb-2">Gmail:</label>
             <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="gmail"
+              name="gmail"
+              value={gmail}
+              onChange={(e) => setGmail(e.target.value)}
               className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400 mb-2"
               required
             />
@@ -145,6 +149,7 @@ export default function EditProfile() {
           <input
             type="file"
             id="file-input"
+            name="profileImage"
             ref={fileInputRef}
             onChange={handleImageChange}
             className="hidden"

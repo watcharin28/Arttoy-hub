@@ -77,7 +77,7 @@ const Home = () => {
   const handleUpload = async () => {
     if (!selectedImage) return alert("กรุณาเลือกรูปภาพก่อน");
 
-    // แป。アปโหลดเป็น base64 string
+    // โหลดเป็น base64 string
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64String = reader.result;

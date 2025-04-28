@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import LikeCard from "./LikeCard";
+import LikeCard from "./likecard";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -8,15 +8,16 @@ export default function LikeList() {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
 
-  const user_id = Cookies.get("user_id");
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/${user_id}/favorites`);
-        setFavorites(response.data); 
+        const response = await axios.get("http://localhost:8080/api/user/favorites", {
+          withCredentials: true,
+        });
+        console.log(response.data);
+        setFavorites(response.data); // เซ็ต favorites ด้วยข้อมูลที่ได้จาก API
       } catch (err) {
         console.error("Error loading favorite products:", err);
         setError("Unable to load your favorite products");
@@ -24,13 +25,24 @@ export default function LikeList() {
     };
 
     fetchFavoriteProducts();
-  }, [user_id, navigate]);
-
+  }, [navigate]);
 
   const handleDelete = async (product_id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/users/${user_id}/favorites/${product_id}`);
-      setFavorites(favorites.filter(item => item.product_id !== product_id)); 
+      if (!product_id) {
+        console.error("Invalid product ID");
+        return;
+      }
+      
+      // ลบสินค้าจากรายการโปรดผ่าน API
+      await axios.delete(`http://localhost:8080/api/user/favorites/${product_id}`, {
+        withCredentials: true, 
+      });
+      const response = await axios.get("http://localhost:8080/api/user/favorites", {
+        withCredentials: true, 
+      });
+      // อัปเดต favorites หลังจากลบสินค้าออก
+      setFavorites(response.data);
     } catch (err) {
       console.error("Error deleting favorite product:", err);
       setError("Unable to remove product from favorites");
@@ -43,19 +55,19 @@ export default function LikeList() {
       {error && <p className="text-red-500 mb-2">{error}</p>}
 
       <div className="flex flex-col gap-4">
-        {favorites.length > 0 ? (
+        {favorites && Array.isArray(favorites) && favorites.length > 0 ? (
           favorites.map((item) => (
             <LikeCard
-              key={item.product_id} 
-              product_id={item.product_id}
+              key={item.id} // หรือใช้ item.product_id ถ้าใช้ชื่อเดียวกัน
+              product_id={item.id} // ใช้ชื่อ id หรือ product_id ขึ้นอยู่กับ API
               name={item.name}
               price={item.price}
-              image={item.image}
+              image={item.product_image}
               onDelete={handleDelete} 
             />
           ))
         ) : (
-          <p className="text-gray-500">You have no favorite product yet.</p>
+          <p className="text-gray-500">You have no favorite products yet.</p>
         )}
       </div>
     </div>

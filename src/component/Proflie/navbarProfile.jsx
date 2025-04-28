@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import EditProfile from './editprofile';
 import Profile from './proflie';
-import LikeList from './Likelist';
+import LikeList from './likelist';
 
 
 export default function NavbarProfile() {
@@ -13,9 +13,15 @@ export default function NavbarProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/${user_id}`);
+        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
+          withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
+          
+        });
+  
+        console.log(response.data)
+        console.log("Image URL:", response.data.profile_image);
         setUsername(response.data.username || '');
-        setProfileImage(response.data.profileImage || '');
+        setProfileImage(response.data.profile_image || '');
       } catch (err) {
         console.error(err);
       }

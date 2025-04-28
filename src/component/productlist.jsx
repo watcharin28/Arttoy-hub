@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
-
+import ProductCard from "./productcard";
+import axios from 'axios';
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
@@ -8,7 +8,8 @@ export default function ProductList() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/products");
+        const response = await axios.get("http://localhost:8080/api/products");
+        // console.log(response.data)
         setProducts(response.data);
       } catch (err) {
         console.error("Error occurred!", err);
@@ -17,7 +18,7 @@ export default function ProductList() {
     };
 
     fetchProducts();
-  }, []);
+  }, );
 
   return (
     <div className="p-4">
@@ -26,11 +27,11 @@ export default function ProductList() {
       <div className="flex flex-wrap gap-4 justify-center">
         {products.map((item) => (
           <ProductCard
-            key={item.product_id} // เปลี่ยนจาก id เป็น product_id
-            product_id={item.product_id} // ส่ง product_id
+            key={item.id} // เปลี่ยนจาก id เป็น product_id
+            product_id={item.id} // ส่ง product_id
             name={item.name}
             price={item.price}
-            image={item.image}
+            image={item.product_image}
           />
         ))}
       </div>

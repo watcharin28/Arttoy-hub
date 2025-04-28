@@ -13,6 +13,7 @@ const HomePage = () => {
       <Navbar/>
       <Banner />
       <ProductList/>
+
     </div>
   );
 };

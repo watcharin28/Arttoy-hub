@@ -16,10 +16,12 @@ export default function Login() {
                 phonenumber, //body json
                 password
 
+            }, {
+                withCredentials: true  // <-- ต้องมีบรรทัดนี้!
             });
             
             console.log('Login Successful:', response.data);
-            Cookies.set('user_id' , response.data.user_id);//แก้ user_id     
+            // Cookies.set('user_id' , response.data.user_id);//แก้ user_id     
             navigate('/');
 
         }
@@ -52,9 +54,7 @@ export default function Login() {
                             className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
                         />
                     </div>
-                    <p className="text-center text-sm text-gray-500 mt-4">
-                        Don't have an account? <a href="/Register" className="text-blue-500">Register</a>
-                    </p>
+                   
                     
                     <button
                         type='submit'
