@@ -20,10 +20,10 @@ const Header = () => {
   <form onSubmit={handleSearch} className="w-full max-w-md relative">
     <input
       type="text"
-      placeholder=" Search for Product"
+      placeholder="  Search for Product"
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
-      className="w-full p-2 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
+      className="w-full p-1 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
     />
     <span className="absolute inset-y-0 right-0 flex items-center pr-3">
       <svg
