@@ -1,12 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Header = () => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const handleSearch = (event) => {
+      event.preventDefault();
+      console.log("Search Query: ", searchQuery);
+  เพิ่มฟังก์ชัน
+    };
+
   return (
-    <nav className="flex items-center justify-between h-20 bg-white shadow-md px-4 sm:px-8">
+    <nav className="flex items-center justify-between h-20 bg-white shadow-md px-4 sm:px-8 sticky top-0 z-10">
       {/* ส่วนของ Logo */}
       <div className="flex items-center">
         <img src="/images/AThub.png" alt="Art Toy Hub" className="w-32 h-16" />
       </div>
+
+      {/* ส่วนของ search bar ตรงกลาง */}
+      <div className="flex items-center justify-center flex-grow">
+  <form onSubmit={handleSearch} className="w-full max-w-md relative">
+    <input
+      type="text"
+      placeholder=" Search for Product"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      className="w-full p-2 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
+    />
+    <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+      <svg
+        className="w-5 h-5 text-gray-400 m-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+        />
+      </svg>
+    </span>
+  </form>
+</div>
+
 
       {/* ส่วนของเมนูนำทาง */}
       <div className="flex items-center space-x-4 mr-4 hidden sm:flex">
@@ -52,6 +89,7 @@ const Header = () => {
           </svg>
         </a>
       </div>
+
 
       {/* เมนูสำหรับมือถือ (จะซ่อนในหน้าจอใหญ่) */}
       <div className="sm:hidden flex items-center">
