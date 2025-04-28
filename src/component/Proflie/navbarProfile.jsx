@@ -3,6 +3,7 @@ import axios from 'axios';
 import EditProfile from './editprofile';
 import Profile from './proflie';
 import LikeList from './Likelist';
+import AddressList from './addresslist';
 
 
 export default function NavbarProfile() {
@@ -35,7 +36,7 @@ export default function NavbarProfile() {
       case 'purchase':
         return <MyPurchase />;
       case 'addresses':
-        return <Addresses />;
+        return <AddressList />;
       case 'likes':
         return <LikeList />;
       default:

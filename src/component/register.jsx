@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
+
 export default function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -9,44 +11,46 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
     setSuccess(false);
 
-    // ตรวจสอบให้แน่ใจว่ารหัสผ่านทั้งสองตรงกัน
-    if (password !== confirmPassword) {
+
+    if (Password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
     try {
-      // ส่งข้อมูลไปยัง API
       const response = await axios.post(`http://localhost:8080/Register`, {
-        username: username,       // ใช้ตัวแปรที่ถูกต้อง
-        email: email,             // ใช้ตัวแปรที่ถูกต้อง
-        phonenumber: phonenumber, // ใช้ตัวแปรที่ถูกต้อง
-        password: password,       // ใช้ตัวแปรที่ถูกต้อง
-        confirmPassword: confirmPassword // ใช้ตัวแปรที่ถูกต้อง
+        username: username,
+        gmail: email,
+        phonenumber: phonenumber,
+        password: password,
+        confirmPassword: confirmPassword
       });
-
       if (response.data.message === "Register Successful") {
         setSuccess(true);
         setTimeout(() => {
-          navigate('/Login');  // เมื่อการลงทะเบียนเสร็จสิ้น, ไปที่หน้า Login
-        }, 2000);
-      } else {
+          navigate('/Login');
+        }, 2000); // 2000 มิลลิวินาที = 2 วินาที
+      }
+       else {
         setError(response.data.error || 'Register Failed!');
       }
-    } catch (error) {
+    }
+    catch (error) {
       setError('Register Failed! Please try again.');
     }
-  }
 
+  }
   return (
     <div className="bg-violet-400 min-h-screen flex items-center justify-start px-4 md:px-12 lg:px-24">
       <div className="px-16 py-12 bg-white rounded-2xl shadow-lg w-full max-w-lg">
@@ -121,3 +125,4 @@ export default function Register() {
     </div>
   );
 }
+

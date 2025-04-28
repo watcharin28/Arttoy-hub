@@ -32,7 +32,7 @@ export default function Login() {
 
     return (
         <div className="flex min-h-screen"> 
-            <div className="w-1/2 bg-purple-300 relative flex flex-col my-8 ml-8 rounded-lg">
+            <div className="w-1/2 bg-purple-400 relative flex flex-col my-8 ml-8 rounded-lg">
                 <div className="p-6">
                     <img
                         src="/images/logo.png"
