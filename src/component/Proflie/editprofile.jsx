@@ -22,18 +22,21 @@ export default function EditProfile() {
           withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
           
         });
+       // ถ้ายังไม่ได้เลือกไฟล์เอง ค่อยเซ็ตข้อมูลจาก server
+      if (!imageFile) {
         setUsername(response.data.username || '');
         setGmail(response.data.gmail || '');
         setPhonenumber(response.data.phonenumber || '');
         setPreviewImage(response.data.profile_image || null);
-      } catch (err) {
-        console.error(err);
-        setError('Unable to load profile data.');
       }
-    };
+    } catch (err) {
+      console.error(err);
+      setError('Unable to load profile data.');
+    }
+  };
 
-    fetchProfile();
-  }, );
+  fetchProfile();
+}, [imageFile]); // เพิ่ม dependency เป็น imageFile
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];

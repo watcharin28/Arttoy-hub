@@ -2,80 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-//   return (
-//     <div className="bg-yellow-200 min-h-screen flex items-center justify-end px-8">
-//       <div className="p-12 bg-white rounded-2xl shadow-lg w-96">
-//         <h1 className="text-3xl font-bold text-left mb-6">Register</h1>
-//         {errors.general && <p className="text-red-500 mb-4">{errors.general}</p>}
-//         <form onSubmit={handleSubmit}>
-//           <div className="mb-4">
-//             <h1 className="text-gray-500">Username</h1>
-//             <input
-//               type="text"
-//               value={Username}
-//               onChange={(e) => setUsername(e.target.value)}
-//               className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
-//             />
-//             {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
-//           </div>
-//           <div className="mb-4">
-//             <h1 className="text-gray-500">Email</h1>
-//             <input
-//               type="email"
-//               value={Email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
-//             />
-//             {errors.gmail && <p className="text-red-500 text-sm">{errors.gmail}</p>}
-//           </div>
-//           <div className="mb-4">
-//             <h1 className="text-gray-500">Phone Number</h1>
-//             <input
-//               type="text"
-//               value={Phonenumber}
-//               onChange={(e) => setPhonenumber(e.target.value)}
-//               className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
-//             />
-//             {errors.phonenumber && <p className="text-red-500 text-sm">{errors.phonenumber}</p>}
-//           </div>
-//           <div className="mb-4">
-//             <h1 className="text-gray-500">Password</h1>
-//             <input
-//               type="password"
-//               value={Password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
-//             />
-//             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-//           </div>
-//           <div className="mb-4">
-//             <h1 className="text-gray-500">Confirm Password</h1>
-//             <input
-//               type="password"
-//               value={ConfirmPassword}
-//               onChange={(e) => setConfirmPassword(e.target.value)}
-//               className="bg-slate-200 w-full p-3 rounded-lg border focus:outline-none focus:border-violet-400"
-//             />
-//             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
-//           </div>
-//           <button
-//             type="submit"
-//             className="w-full p-3 bg-violet-400 text-white rounded hover:bg-blue-600 transition"
-//           >
-//             Register
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
+
 
 export default function Register() {
-  const [Username, setUsername] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Phonenumber, setPhonenumber] = useState('');
-  const [Password, setPassword] = useState('');
-  const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phonenumber, setPhonenumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
 
   const [error, setError] = useState(null);
@@ -89,18 +23,18 @@ export default function Register() {
     setSuccess(false);
 
 
-    if (Password !== ConfirmPassword) {
+    if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
     try {
       const response = await axios.post(`http://localhost:8080/Register`, {
-        username: Username,
-        gmail: Email,
-        phonenumber: Phonenumber,
-        password: Password,
-        confirmPassword: ConfirmPassword
+        username: username,
+        gmail: email,
+        phonenumber: phonenumber,
+        password: password,
+        confirmPassword: confirmPassword
       });
       if (response.data.message === "Register Successful") {
         setSuccess(true);
@@ -118,63 +52,74 @@ export default function Register() {
 
   }
   return (
-    <div className="bg-yellow-200 min-h-screen flex items-center justify-end px-8">
-      <div className="p-12 bg-white rounded-2xl shadow-lg w-96 ">
-        <h2 className="text-3xl font-bold text-left mb-6">Create an Account</h2>
+    <div className="bg-violet-400 min-h-screen flex items-center justify-start px-4 md:px-12 lg:px-24">
+      <div className="px-16 py-12 bg-white rounded-2xl shadow-lg w-full max-w-lg">
+        <div className="flex items-center justify-center">
+          <img src="/images/AThub.png" alt="Art Toy Hub" className="w-32 h-20" />
+        </div>
+        <h2 className="text-3xl font-bold text-center">Create Account</h2>
         {success && <p className="text-green-500 text-center mb-4">Registration successful! You can now log in.</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="mb-4">
-            <h1 className='text-gray-400'>Username</h1>
+        <form onSubmit={handleSubmit} className="space-y-2 w-full">
+          <div>
+            <h1 className='text-gray-500'>Username</h1>
             <input
               type='text'
-              name='Username'
-              value={Username}
+              name='username'
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full"
+              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
             />
           </div>
           <div>
-            <h1 className='text-gray-400'>Email</h1>
+            <h1 className='text-gray-500'>Email</h1>
             <input
               type='email'
-              name='Email'
-              value={Email}
+              name='email'
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full"
+              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
             />
           </div>
           <div>
-            <h1 className='text-gray-400'>Phone Number</h1>
+            <h1 className='text-gray-500'>Phone Number</h1>
             <input
               type='text'
-              name='Phonenumber'
-              value={Phonenumber}
+              name='phonenumber'
+              value={phonenumber}
               onChange={(e) => setPhonenumber(e.target.value)}
-              className="w-full"
+              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
             />
           </div>
           <div>
-            <h1 className='text-gray-400'>Password</h1>
+            <h1 className='text-gray-500'>Password</h1>
             <input
               type='password'
               name='password'
-              value={Password}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full"
-            /></div>
+              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
+            />
+          </div>
           <div>
-            <h1 className='text-gray-400'>Confirm Password</h1>
+            <h1 className='text-gray-500'>Confirm Password</h1>
             <input
               type='password'
-              password='confirmPassword'
               name='confirmPassword'
-              value={ConfirmPassword}
+              value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full"
+              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400 mb-4"
             />
-            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
           </div>
-          <button type="submit" className="w-full mt-4">Sign Up</button>
+          <button
+            type='submit'
+            className="w-full p-3 bg-violet-400 text-white rounded hover:bg-violet-600 transition"
+          >
+            Sign Up
+          </button>
+          <p className="text-center text-sm text-gray-500 mt-4">
+            Already have an account? <a href="/Login" className="text-black font-bold underline">Log in</a>
+          </p>
         </form>
       </div>
     </div>

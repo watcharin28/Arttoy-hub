@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const Header = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const handleSearch = (event) => {
-      event.preventDefault();
-      console.log("Search Query: ", searchQuery);
-  เพิ่มฟังก์ชัน
-    };
+
+const Header = ({ setSearchResults }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    if (searchQuery.trim()) {
+      try {
+        const response = await axios.get(`http://localhost:8080/search?keyword=${searchQuery}`);
+        setSearchResults(response.data);
+      } catch (err) {
+        console.error("Error occurred while searching:", err);
+      }
+    } else {
+      setSearchResults([]); // clear search results
+    }
+  };
 
   return (
     <nav className="flex items-center justify-between h-20 bg-white shadow-md px-4 sm:px-8 sticky top-0 z-10">
