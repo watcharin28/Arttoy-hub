@@ -5,6 +5,7 @@ import Profile from './proflie';
 
 import LikeList from './likelist';
 import AddressList from './addresslist';
+import ChangePassword from './changepassword';
 export default function NavbarProfile() {
   const [username, setUsername] = useState('');
   const [profileImage, setProfileImage] = useState('');
@@ -29,7 +30,6 @@ export default function NavbarProfile() {
 
     fetchProfile();
   }, []);
-
 
   const renderContent = () => {
 
@@ -114,10 +114,3 @@ function MyPurchase() {
 
 
 
-function ChangePassword() {
-  return (
-    <div>
-      <h2 className="text-lg font-semibold mb-2">Change Password</h2>
-    </div>
-  );
-}

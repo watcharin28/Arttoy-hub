@@ -13,8 +13,12 @@ export default function AddressList() {
 
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get("/api/addresses");
-      setAddresses(response.data);
+      const response = await axios.get('http://localhost:8080/api/user/addresses', {
+        withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
+        
+      });
+      console.log("Fetched addresses:", response.data);
+      setAddresses(response.data.addresses);
       setError("");
     } catch (error) {
       setError("Unable to load address information.");
@@ -24,9 +28,9 @@ export default function AddressList() {
 
   const handleAddAddress = async (newAddress) => {
     try {
-      const response = await axios.post("/api/addresses", newAddress);
+      const response = await axios.put('http://localhost:8080/api/user/shipping-address', newAddress, {withCredentials: true});
       const addedAddress = response.data;
-
+      
       if (addedAddress.isDefault) {
         setAddresses((prev) =>
           prev.map((addr) => ({ ...addr, isDefault: false }))
@@ -52,14 +56,15 @@ export default function AddressList() {
   };
 
   const handleUpdateAddress = async (updatedAddress) => {
+    console.log("Updating address with id:", updatedAddress.id);
     try {
-      const response = await axios.put(`/api/addresses/${updatedAddress.id}`, updatedAddress);
+      const response = await axios.put(`http://localhost:8080/api/user/addresses/${updatedAddress.id}`, updatedAddress, {withCredentials: true});
       const updated = response.data;
 
       setAddresses((prev) =>
         prev.map((addr) => (addr.id === updated.id ? updated : addr))
       );
-
+      await fetchAddresses();  // หลังเพิ่มเสร็จ ให้ fetch addresses ใหม่
       setIsModalOpen(false);
       setIsEditMode(false);
       setSelectedAddress(null);

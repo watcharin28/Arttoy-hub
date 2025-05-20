@@ -15,6 +15,7 @@ export default function EditAddress({ isOpen, onClose, onSave, address }) {
   useEffect(() => {
     if (address) {
       setFormData({
+        id: address.id,
         name: address.name,
         phone: address.phone,
         address: address.address,

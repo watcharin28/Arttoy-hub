@@ -7,7 +7,7 @@ const ProfilePage = () => {
         <Header/>
         <NavBar/>
         <NavbarProfile/>
-  
+        
       </div>
     );
   };

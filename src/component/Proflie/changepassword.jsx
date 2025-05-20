@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function ChangePassword() {
   const [oldPassword, setOldPassword] = useState('');
@@ -6,7 +7,7 @@ export default function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
 
@@ -15,14 +16,31 @@ export default function ChangePassword() {
       return;
     }
 
-    setMessage('Password updated successfully!');
+    try {
+      const res = await axios.put(
+        'http://localhost:8080/api/user/change-password',
+        {
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+          confirmPassword: confirmPassword
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
-    setTimeout(() => {
-      setMessage('');
-      setOldPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-    }, 2000);
+      setMessage(res.data.message || 'Password updated successfully!');
+      setTimeout(() => {
+        setMessage('');
+        setOldPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+      }, 2000);
+    } catch (err) {
+      const errorMsg =
+        err.response?.data?.message || 'Failed to update password';
+      setMessage(errorMsg);
+    }
   };
 
   return (
