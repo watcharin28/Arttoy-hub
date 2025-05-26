@@ -2,25 +2,29 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
-  const [searchQuery, setSearchQuery] = useState(""); // ค่าค้นหาจาก input
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false); // เปิด-ปิด เมนูโปรไฟล์
-  const navigate = useNavigate(); // สำหรับการนำทางไปหน้าอื่น
-
+const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching }) => {
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("");
   const handleSearch = async (event) => {
-    event.preventDefault();
-    if (searchQuery.trim()) {
-      try {
-        const response = await axios.get(`http://localhost:8080/search?keyword=${searchQuery}`);
-        setSearchResults(response.data);
-      } catch (err) {
-        console.error("Error occurred while searching:", err);
-      }
-    } else {
-      setSearchResults([]); // clear search results
-    }
-  };
+  event.preventDefault();
 
+  const keyword = inputValue.trim(); //ดึงค่าจาก input
+  if (!keyword) {
+    setSearchResults([]);
+    return;
+  }
+
+  setSearchQuery(keyword);       //บันทึกคำที่ค้นหาจริง
+  setIsSearching(true);          //กำหนดว่าอยู่ในโหมดค้นหาแล้ว
+
+  try {
+    const response = await axios.get(`http://localhost:8080/search?keyword=${keyword}`);
+    setSearchResults(response.data);
+  } catch (err) {
+    console.error("Error occurred while searching:", err);
+  }
+};
 
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen); // เปลี่ยนสถานะเมนูโปรไฟล์
@@ -32,7 +36,7 @@ const Header = () => {
 
       // เรียก API ลบ cookie/token ที่ backend
       await axios.post('http://localhost:8080/api/user/logout', {}, {
-        withCredentials: true, // สำคัญมากถ้าใช้ cookie
+        withCredentials: true, 
       });
 
       // นำทางไปยังหน้า Login
@@ -59,8 +63,8 @@ const Header = () => {
           <input
             type="text"
             placeholder="  Search for Product"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} // อัพเดตค่าของ searchQuery
+             value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)} // อัพเดตค่าของ searchQuery
             className="w-full p-1 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
           <span className="absolute inset-y-0 right-0 flex items-center pr-3">

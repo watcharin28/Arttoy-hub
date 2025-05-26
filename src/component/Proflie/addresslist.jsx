@@ -15,7 +15,7 @@ export default function AddressList() {
     try {
       const response = await axios.get('http://localhost:8080/api/user/addresses', {
         withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
-        
+
       });
       console.log("Fetched addresses:", response.data);
       setAddresses(response.data.addresses);
@@ -26,28 +26,30 @@ export default function AddressList() {
     }
   };
 
-  const handleAddAddress = async (newAddress) => {
-    try {
-      const response = await axios.put('http://localhost:8080/api/user/shipping-address', newAddress, {withCredentials: true});
-      const addedAddress = response.data;
-      
-      if (addedAddress.isDefault) {
-        setAddresses((prev) =>
-          prev.map((addr) => ({ ...addr, isDefault: false }))
-        );
-      }
+const handleAddAddress = async (newAddress) => {
+  try {
+    const response = await axios.put('http://localhost:8080/api/user/shipping-address', newAddress, { withCredentials: true });
+    const addedAddress = response.data.address; //  ดึง address จริง
 
-      setAddresses((prev) => [...prev, addedAddress]);
-
-      setIsModalOpen(false);
-      setIsEditMode(false);
-      setSelectedAddress(null);
-      setError("");
-    } catch (error) {
-      setError("Unable to add the address.");
-      console.error("Error adding address:", error);
+    if (addedAddress.isDefault) {
+      setAddresses((prev) =>
+        Array.isArray(prev) ? prev.map((addr) => ({ ...addr, isDefault: false })) : []
+      );
     }
-  };
+
+    setAddresses((prev) =>
+      Array.isArray(prev) ? [...prev, addedAddress] : [addedAddress]
+    );
+
+    setIsModalOpen(false);
+    setIsEditMode(false);
+    setSelectedAddress(null);
+    setError("");
+  } catch (error) {
+    setError("Unable to add the address.");
+    console.error("Error adding address:", error);
+  }
+};
 
   const handleEditAddress = (address) => {
     setSelectedAddress(address);
@@ -58,7 +60,7 @@ export default function AddressList() {
   const handleUpdateAddress = async (updatedAddress) => {
     console.log("Updating address with id:", updatedAddress.id);
     try {
-      const response = await axios.put(`http://localhost:8080/api/user/addresses/${updatedAddress.id}`, updatedAddress, {withCredentials: true});
+      const response = await axios.put(`http://localhost:8080/api/user/addresses/${updatedAddress.id}`, updatedAddress, { withCredentials: true });
       const updated = response.data;
 
       setAddresses((prev) =>
@@ -98,13 +100,17 @@ export default function AddressList() {
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
       <div className="grid gap-4">
-        {addresses.map((address) => (
-          <AddressCard
-            key={address.id}
-            address={address}
-            onEdit={handleEditAddress}
-          />
-        ))}
+        {Array.isArray(addresses) && addresses.length > 0 ? (
+          addresses.map((address) => (
+            <AddressCard
+              key={address.id}
+              address={address}
+              onEdit={handleEditAddress}
+            />
+          ))
+        ) : (
+          <div className="text-gray-500">No addresses found.</div>
+        )}
       </div>
 
       <AddAddress

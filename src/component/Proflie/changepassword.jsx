@@ -44,8 +44,8 @@ export default function ChangePassword() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen p-4 bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+   
+      <div>
         <h1 className="text-center text-2xl font-bold mb-6">Change Password</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -98,6 +98,6 @@ export default function ChangePassword() {
           </button>
         </form>
       </div>
-    </div>
+    
   );
 }

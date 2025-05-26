@@ -62,7 +62,7 @@ export default function LikeList() {
               product_id={item.id} // ใช้ชื่อ id หรือ product_id ขึ้นอยู่กับ API
               name={item.name}
               price={item.price}
-              image={item.product_image}
+              image={item.product_image?.[0]}
               onDelete={handleDelete} 
             />
           ))
