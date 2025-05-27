@@ -1,6 +1,6 @@
-import Header from "../component/Header";
-import NavBar from "../component/navbar";
-import NavbarProfile from "../component/Proflie/navbarProfile";
+import Header from "../component/Buyer/Header";
+import NavBar from "../component/Buyer/navbar";
+import NavbarProfile from "../component/Buyer/Proflie/navbarProfile";
 const ProfilePage = () => {
     return (
       <div>

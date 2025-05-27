@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Header from '../component/Header.jsx';
-import Navbar from '../component/navbar.jsx';
-import Banner from '../component/banner.jsx';
-import ProductList from '../component/productlist.jsx';
+import Header from '../component/Buyer/Header';
+import NavBar from '../component/Buyer/navbar';
+import Banner from '../component/Buyer/banner';
+import ProductList from '../component/Buyer/home/productlist';
 
 const HomePage = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -18,7 +18,7 @@ const HomePage = () => {
         setIsSearching={setIsSearching} // ส่งเข้า Header
       />
 
-      <Navbar />
+      <NavBar />
 
       {/* ✅ แสดง Banner เฉพาะตอนยังไม่ค้นหา */}
       {!isSearching && <Banner />}

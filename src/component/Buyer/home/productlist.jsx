@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./productcard";
 import axios from "axios";
 
 export default function ProductList({ searchResults, keyword = "", isSearching = false }) {
