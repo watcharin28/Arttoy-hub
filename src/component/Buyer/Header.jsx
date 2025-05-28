@@ -50,6 +50,23 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
     navigate('/profile'); // นำทางไปยังหน้าโปรไฟล์
   };
 
+  const handleSelling = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/user", {
+        withCredentials: true,
+      });
+      const user = await response.json();
+
+      if (user.is_seller) {
+        navigate("/selling");
+      } else {
+        navigate("/sellerRegister");
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    }
+  };
+
   return (
     <nav className="flex items-center justify-between h-20 bg-white shadow-md px-4 sm:px-8 sticky top-0 z-20">
       {/* ส่วนของ Logo */}
@@ -58,39 +75,28 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
       </div>
 
       {/* ส่วนของ search bar ตรงกลาง */}
-      <div className="flex items-center justify-center flex-grow">
+      <div className="flex-grow flex justify-center mx-4">
         <form onSubmit={handleSearch} className="w-full max-w-md relative">
           <input
             type="text"
-            placeholder="  Search for Product"
-             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)} // อัพเดตค่าของ searchQuery
-            className="w-full p-1 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            placeholder=" Search for Product"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            className="w-full pl-4 pr-10 py-1.5 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500 text-sm"
           />
           <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-            <svg
-              className="w-5 h-5 text-gray-400 m-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
-              />
+            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
             </svg>
           </span>
         </form>
       </div>
 
       {/* ส่วนของเมนูนำทาง */}
-      <div className="flex items-center space-x-4 mr-4 hidden sm:flex">
+      <div className="flex items-center space-x-4 mr-6 hidden sm:flex">
         <a
           href="/Login"
-          className="text-gray-700 hover:text-violet-500 transition duration-200"
+          className="text-gray-700 hover:text-violet-500 transition m-2 duration-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +116,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
 
         {/* ส่วนของโปรไฟล์ */}
         <div className="relative">
-          <button onClick={toggleProfileMenu} className="text-gray-700 hover:text-violet-500">
+          <button onClick={toggleProfileMenu} className="text-gray-700 m-2 hover:text-violet-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -131,25 +137,53 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
 
           {/* เมนู Dropdown */}
           {isProfileMenuOpen && (
-            <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg">
-              <a
-                href="/profile"
-                className="text-gray-700 hover:text-violet-500 transition duration-200"
-              ></a>
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
               <button
                 onClick={handleMyProfile}
-                className="w-full px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
+                className="w-full px-4 py-2 text-gray-700 hover:bg-gray-200 text-left flex items-center gap-2"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0"
+                  />
+                </svg>
                 My Profile
               </button>
+
+              <button
+                onClick={handleSelling}
+                className="w-full px-4 py-2 text-gray-700 hover:bg-gray-200 text-left flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+
+                Selling
+              </button>
+
               <button
                 onClick={handleLogout}
-                className="w-full px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
+                className="w-full px-4 py-2 text-gray-700 hover:bg-gray-200 text-left flex items-center gap-2"
               >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                </svg>
+
                 Logout
               </button>
             </div>
           )}
+
         </div>
       </div>
 
