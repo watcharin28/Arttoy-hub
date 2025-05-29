@@ -13,7 +13,7 @@ const SellerRegister = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user`, {
+        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
           withCredentials: true,
         });
         setUsername(response.data.username || '');
@@ -113,7 +113,7 @@ const SellerRegister = () => {
         formData.append("id_card_image", idCardImage);
       }
 
-      const response = await axios.post(`http://localhost:8080/Register`, formData, {
+      const response = await axios.post(`http://localhost:8080/api/user/become-seller`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -259,14 +259,19 @@ const SellerRegister = () => {
               <>
                 <div className="my-2">
                   <label className="text-gray-500" htmlFor="bankName">Bank Name</label>
-                  <input
-                    id="bankName"
-                    type="text"
-                    name="bankName"
+                  <select
+                    id="bank_name"
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
                     className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
-                  />
+                  >
+                    <option value="">-- กรุณาเลือกธนาคาร --</option>
+                    <option value="กสิกรไทย">กสิกรไทย</option>
+                    <option value="ไทยพาณิชย์">ไทยพาณิชย์</option>
+                    <option value="กรุงเทพ">กรุงเทพ</option>
+                    <option value="กรุงศรี">กรุงศรี</option>
+                    <option value="กรุงไทย">กรุงไทย</option>
+                  </select>
                 </div>
                 <div className="my-2">
                   <label className="text-gray-500" htmlFor="accountName">Bank Account Name</label>

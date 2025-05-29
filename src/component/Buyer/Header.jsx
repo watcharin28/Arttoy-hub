@@ -52,10 +52,10 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
 
   const handleSelling = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/user", {
+      const response = await axios.get("http://localhost:8080/api/user/Profile", {
         withCredentials: true,
       });
-      const user = await response.json();
+      const user = response.data;
 
       if (user.is_seller) {
         navigate("/selling");
