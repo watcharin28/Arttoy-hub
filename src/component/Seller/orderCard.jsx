@@ -18,7 +18,10 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
       alert("Please enter the tracking number and shipping service");
       return;
     }
-    onSubmitShipping(order.id, { trackingNumber, shippingService });
+    onSubmitShipping(order.id, {
+      tracking_number: trackingNumber,
+      sender_name: shippingService
+    });
     setShowShippingForm(false);
     setTrackingNumber("");
     setShippingService("");
@@ -29,46 +32,48 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
   return (
     <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full transition hover:shadow-lg flex flex-col">
       {/* Card Header */}
-      <div
-        className={`flex justify-end px-4 py-2 ${
-          statusColors[order.status] || "bg-gray-100 text-gray-700"
-        }`}
-      >
+      <div className={`flex justify-end px-4 py-2 ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
         <span className="px-3 py-1 rounded-full text-xs font-medium bg-white shadow-sm">
           {order.status.toUpperCase()}
         </span>
       </div>
 
-      {/* Content */}
-      <div className="flex p-4 gap-4 flex-1">
-        <img
-          src={order.item.image}
-          alt={order.item.Name}
-          className="w-24 h-24 rounded-xl object-cover border"
-        />
-        <div className="flex flex-col flex-1">
-          <h3 className="text-lg font-semibold text-gray-800">{order.item.Name}</h3>
-
-          <div className="flex flex-col gap-1">
-            {order.trackingNumber && (
-              <p className="text-sm text-gray-600">
-                Tracking Number: <span className="font-mono">{order.trackingNumber}</span>
-              </p>
-            )}
-            {order.shippingService && (
-              <p className="text-sm text-gray-600">
-                Service: <span className="font-mono">{order.shippingService}</span>
-              </p>
-            )}
+      {/* Multiple Items */}
+      <div className="flex flex-col gap-4 p-4">
+        {order.items.map((itemWrapper, index) => (
+          <div key={index} className="flex gap-4 items-center">
+            <img
+              src={itemWrapper.item?.product_image?.[0] || "/images/placeholder.png"}
+              alt={itemWrapper.item?.name || "Product"}
+              className="w-20 h-20 rounded-xl object-cover border"
+            />
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800">{itemWrapper.item?.name || "No Name"}</h3>
+              <p className="text-sm text-gray-500">฿ {itemWrapper.price}</p>
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        <div className="flex items-end">
-          <p className="text-sm text-gray-500">
-            Order Total:{" "}
-            <span className="text-red-500 text-lg font-bold">฿ {order.total}</span>
+      {/* Tracking Info */}
+      <div className="px-4 pb-2 text-sm text-gray-600">
+        {order.trackingNumber && (
+          <p>
+            Tracking Number: <span className="font-mono">{order.trackingNumber}</span>
           </p>
-        </div>
+        )}
+        {order.shippingService && (
+          <p>
+            Service: <span className="font-mono">{order.shippingService}</span>
+          </p>
+        )}
+      </div>
+
+      {/* Total */}
+      <div className="px-4 pb-4 flex justify-end">
+        <p className="text-sm text-gray-500">
+          Order Total: <span className="text-red-500 text-lg font-bold">฿ {order.total}</span>
+        </p>
       </div>
 
       {hasActionButton && <hr className="border-gray-300 mx-4" />}
@@ -79,9 +84,8 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
             <button
               onClick={() => onConfirm(order.id)}
               disabled={loading}
-              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${
-                loading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
-              }`}
+              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${loading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                }`}
             >
               {loading ? "Loading..." : "Confirm Order"}
             </button>
@@ -90,9 +94,8 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
             <button
               onClick={() => setShowShippingForm(true)}
               disabled={loading}
-              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${
-                loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-              }`}
+              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                }`}
             >
               {loading ? "Loading..." : "Enter Tracking Number"}
             </button>
@@ -100,10 +103,10 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
         </div>
       )}
 
+      {/* Shipping Modal */}
       {showShippingForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md relative">
-            {/* Form Header */}
             <div className="bg-purple-600 rounded-t-3xl px-6 py-3 flex items-center justify-between">
               <h1 className="text-white text-lg font-semibold uppercase tracking-wide">
                 Shipping Information

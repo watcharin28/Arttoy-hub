@@ -11,10 +11,11 @@ export default function MyOrder() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/orders/`, {
+        const response = await axios.get(`http://localhost:8080/api/orders/seller`, {
           withCredentials: true,
         });
-        setOrders(response.data);
+        console.log("✅ response.data = ", response.data);
+        setOrders(response.data.orders || []);
       } catch (error) {
         console.error("Failed to fetch orders", error);
       } finally {
@@ -40,36 +41,63 @@ export default function MyOrder() {
     };
   };
 
-  const updateOrderStatus = async (orderId, data) => {
-    setLoadingUpdateId(orderId); // เริ่ม loading update
-    try {
-       const response = await axios.put(`http://localhost:8080/api/order`, {
-          withCredentials: true,
-        });
-      setOrders((prev) =>
-        prev.map((order) =>
-          order.id === orderId || order._id === orderId ? { ...order, ...response.data } : order
-        )
-      );
-    } catch (error) {
-      console.error("Failed to update order status", error);
-      alert("Failed to update order status");
-    } finally {
-      setLoadingUpdateId(null); // หยุด loading update
-    }
-  };
+  const updateOrderStatus = async (orderId, data, actionType) => {
+  setLoadingUpdateId(orderId);
 
-  const handleConfirmOrder = (orderId) => {
-    updateOrderStatus(orderId, { status: "shipping" });
-  };
+  let url = "";
+  let method = "PUT";
+  let body = data;
 
-  const handleSubmitShipping = (orderId, shippingData) => {
-    updateOrderStatus(orderId, { status: "processing", ...shippingData });
-  };
+  switch (actionType) {
+    case "shipping":
+      url = `/api/orders/${orderId}/accept`;
+      body = null;
+      break;
+    case "processing":
+      url = `/api/orders/${orderId}/tracking`;
+      break;
+    case "complete":
+      url = `/api/orders/${orderId}/confirm`;
+      method = "POST";
+      body = null;
+      break;
+    default:
+      alert("Unknown action type");
+      return;
+  }
 
-  const handleCompleteOrder = (orderId) => {
-    updateOrderStatus(orderId, { status: "completed" });
-  };
+  try {
+    const response = await axios({
+      method,
+      url: `http://localhost:8080${url}`,
+      data: body,
+      withCredentials: true,
+    });
+
+    setOrders((prev) =>
+      prev.map((order) =>
+        order._id === orderId ? { ...order, ...response.data } : order
+      )
+    );
+  } catch (error) {
+    console.error("Failed to update order status", error);
+    alert("Failed to update order status");
+  } finally {
+    setLoadingUpdateId(null);
+  }
+};
+
+const handleConfirmOrder = (orderId) => {
+  updateOrderStatus(orderId, null, "shipping"); // กดรับคำสั่งซื้อ
+};
+
+const handleSubmitShipping = (orderId, shippingData) => {
+  updateOrderStatus(orderId, shippingData, "processing"); // ใส่เลขพัสดุ
+};
+
+const handleCompleteOrder = (orderId) => {
+  updateOrderStatus(orderId, null, "complete"); // กดยืนยันรับสินค้า
+};
 
   const counts = getStatusCounts();
 
@@ -92,11 +120,10 @@ export default function MyOrder() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 -mb-px border-b-2 transition-colors duration-200 ${
-                activeTab === tab.id
+              className={`px-4 py-2 -mb-px border-b-2 transition-colors duration-200 ${activeTab === tab.id
                   ? "border-purple-600 text-purple-700 font-bold"
                   : "border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 font-normal"
-              }`}
+                }`}
             >
               {tab.label}
             </button>
