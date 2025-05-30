@@ -33,7 +33,7 @@ const ProductDetail = () => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [userId, setUserId] = useState(null);
     const [addingToCart, setAddingToCart] = useState(false);
-
+    
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -332,7 +332,22 @@ const ProductDetail = () => {
                                 <button
                                     type="button"
                                     className="flex items-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
-                                    onClick={() => navigate(`/checkout?product_id=${product._id}&quantity=1`)}
+                                    onClick={() => {
+                                        navigate("/checkout", {
+                                            state: {
+                                                items: [
+                                                    {
+                                                        _id: product._id,
+                                                        name: product.name,
+                                                        price: product.price,
+                                                        seller_name: product.seller.name,
+                                                        item: product, // full product object
+                                                        quantity: 1,
+                                                    },
+                                                ],
+                                            },
+                                        });
+                                    }}
                                 >
                                     Buy now
                                     <svg
