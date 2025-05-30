@@ -18,10 +18,12 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
       alert("Please enter the tracking number and shipping service");
       return;
     }
+
     onSubmitShipping(order.id, {
       tracking_number: trackingNumber,
       sender_name: shippingService
     });
+
     setShowShippingForm(false);
     setTrackingNumber("");
     setShippingService("");

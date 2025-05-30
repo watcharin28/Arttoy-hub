@@ -58,7 +58,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
       const user = response.data;
 
       if (user.is_seller) {
-        navigate("/selling");
+        navigate("/seller");
       } else {
         navigate("/sellerRegister");
       }

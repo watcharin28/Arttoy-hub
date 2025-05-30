@@ -1,5 +1,5 @@
 import React from "react";
-import MyOrder from "./MyOrder";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ShoppingCartIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -13,23 +13,18 @@ const CubeIcon = (
   </svg>
 );
 
-const PlusIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-  </svg>
-);
+export default function AppSidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const XMarkIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-  </svg>
-);
+  // กำหนด active ตาม path ปัจจุบัน
+  const pathToId = {
+    "/seller/myOrder": "my-order",
+    "/seller/myProduct": "my-product",
 
-export default function AppSidebar({ activeSection, setActiveSection, onClose }) {
-  const handleItemClick = (id) => {
-    setActiveSection(id);
-    onClose();
   };
+
+  const activeSection = pathToId[location.pathname] || "";
 
   const isActive = (id) =>
     activeSection === id
@@ -38,15 +33,12 @@ export default function AppSidebar({ activeSection, setActiveSection, onClose })
 
   return (
     <div className="h-full flex flex-col bg-white">
-
-
-      {/* Sidebar Content */}
       <div className="flex-1 p-4 space-y-6">
         {/* Purchase Order Section */}
         <div>
           <h3 className="text-gray-600 font-medium text-sm mb-3">Purchase Order</h3>
           <button
-            onClick={() => handleItemClick("my-order")}
+            onClick={() => navigate("/seller/myOrder")}
             className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${isActive("my-order")}`}
           >
             {ShoppingCartIcon}
@@ -59,20 +51,13 @@ export default function AppSidebar({ activeSection, setActiveSection, onClose })
           <h3 className="text-gray-600 font-medium text-sm mb-3">Product</h3>
 
           <button
-            onClick={() => handleItemClick("my-product")}
+            onClick={() => navigate("/seller/myProduct")}
             className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${isActive("my-product")}`}
           >
             {CubeIcon}
             <span className="font-medium">My Product</span>
           </button>
 
-          <button
-            onClick={() => handleItemClick("add-product")}
-            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${isActive("add-product")}`}
-          >
-            {PlusIcon}
-            <span className="font-medium">Add Product</span>
-          </button>
         </div>
       </div>
     </div>

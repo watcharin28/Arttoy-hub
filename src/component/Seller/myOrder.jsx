@@ -16,6 +16,7 @@ export default function MyOrder() {
         });
         console.log("✅ response.data = ", response.data);
         setOrders(response.data.orders || []);
+
       } catch (error) {
         console.error("Failed to fetch orders", error);
       } finally {
@@ -40,6 +41,7 @@ export default function MyOrder() {
       completed: orders.filter((o) => o.status === "completed").length,
     };
   };
+
 
   const updateOrderStatus = async (orderId, data, actionType) => {
   setLoadingUpdateId(orderId);
@@ -99,6 +101,7 @@ const handleCompleteOrder = (orderId) => {
   updateOrderStatus(orderId, null, "complete"); // กดยืนยันรับสินค้า
 };
 
+
   const counts = getStatusCounts();
 
   const tabs = [
@@ -124,6 +127,7 @@ const handleCompleteOrder = (orderId) => {
                   ? "border-purple-600 text-purple-700 font-bold"
                   : "border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 font-normal"
                 }`}
+
             >
               {tab.label}
             </button>
