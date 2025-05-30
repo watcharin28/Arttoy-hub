@@ -27,6 +27,7 @@ const ProductDetail = () => {
 
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [reviews, setReviews] = useState([]);
     const [error, setError] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -38,8 +39,11 @@ const ProductDetail = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const res = await axios.get(`http://localhost:8080/api/products/${product_id}`);
+                const res = await axios.get(`http://localhost:8080/api/products/${product_id}`, {
+                    withCredentials: true,
+                });
                 setProduct(res.data);
+                setReviews(res.data.reviews || []);
             } catch (err) {
                 console.error("Error loading product", err);
                 setError("Unable to load product. Please try again.");
@@ -142,7 +146,7 @@ const ProductDetail = () => {
             </div>
         );
     }
-
+    const isSeller = userId === product.seller?.id;
     const renderStars = (rating, size = "h-4 w-4") => {
         const roundedRating = Math.round(rating);
         return (
@@ -268,83 +272,86 @@ const ProductDetail = () => {
                         <div className="flex items-center justify-between">
                             {renderStars(product.rating, "h-6 w-6")}
 
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleLike();
-                                }}
-                                aria-label={isLiked ? "Unlike product" : "Like product"}
-                                className={`w-10 h-10 rounded-full flex items-center justify-center text-3xl ${isLiked ? "bg-pink-500 text-white" : "bg-gray-200 text-black"
-                                    }`}
-                                type="button"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill={isLiked ? "currentColor" : "none"}
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="w-7 h-7"
+                            {!isSeller && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleLike();
+                                    }}
+                                    aria-label={isLiked ? "Unlike product" : "Like product"}
+                                    className={`w-10 h-10 rounded-full flex items-center justify-center text-3xl ${isLiked ? "bg-pink-500 text-white" : "bg-gray-200 text-black"}`}
+                                    type="button"
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                                    />
-                                </svg>
-                            </button>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill={isLiked ? "currentColor" : "none"}
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="w-7 h-7"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                                        />
+                                    </svg>
+                                </button>
+                            )}
                         </div>
 
                         {/* Product Description */}
                         <p className="text-gray-700">{product.description}</p>
 
                         {/* Add to Cart and Buy Now Buttons */}
-                        <div className="flex gap-4">
+                        {!isSeller && (
+                            <div className="flex gap-4">
+                                <button
+                                    type="button"
+                                    className={`flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-50`}
+                                    onClick={handleAddToCart}
+                                    disabled={addingToCart}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                                        />
+                                    </svg>
+                                    {addingToCart ? "กำลังเพิ่ม..." : "Add to cart"}
+                                </button>
 
-                            <button
-                                type="button"
-                                className={`flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-50`}
-                                onClick={handleAddToCart}
-                                disabled={addingToCart}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
+                                <button
+                                    type="button"
+                                    className="flex items-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
+                                    onClick={() => navigate(`/checkout?product_id=${product._id}&quantity=1`)}
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                                    />
-                                </svg>
-                                {addingToCart ? "กำลังเพิ่ม..." : "Add to cart"}
-                            </button>
-                            <button
-                                type="button"
-                                className="flex items-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
-                                onClick={() => navigate(`/checkout?product_id=${product._id}&quantity=1`)}
-                            >
-                                Buy now
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M17.25 6.75L21 10.5m0 0l-3.75 3.75M21 10.5H3"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
+                                    Buy now
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M17.25 6.75L21 10.5m0 0l-3.75 3.75M21 10.5H3"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        )}
                     </section>
                 </main>
                 <div className="mt-6 w-full bg-gray-100 rounded-md p-6 shadow-sm">
@@ -433,7 +440,15 @@ const ProductDetail = () => {
 
                                 {/* วันที่อยู่ขวาล่าง */}
                                 <span className="absolute bottom-2 right-3 text-gray-500 text-xs">
-                                    {review.date}
+                                    {new Date(review.date).toLocaleString("en-GB", {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: false,
+                                        timeZone: "Asia/Bangkok",
+                                    })}
                                 </span>
                             </div>
 

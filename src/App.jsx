@@ -20,7 +20,7 @@ function App() {
                 <Route path="/profile" element={<ProfilePage/>} />
                 <Route path="/sellerRegister" element={<SellerRegisterPage/>} />
                 <Route path="/seller/*" element={<SellerHomePage/>} />
-                <Route path="/product/:id" element={<ProductDetailPage />} />
+                <Route path="/product/:product_id" element={<ProductDetailPage />} />
             </Routes>
         </div>
     );
