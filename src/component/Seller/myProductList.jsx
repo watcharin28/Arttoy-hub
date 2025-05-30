@@ -15,7 +15,8 @@ export default function ProductList() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await axios.get("http://localhost:8080/api/products");
+        const res = await axios.get("http://localhost:8080/api/products/my-products",
+          { withCredentials: true });
         setProducts(res.data || []);
       } catch (error) {
         console.error("Failed to load products:", error);
@@ -87,9 +88,11 @@ export default function ProductList() {
         {/* Popup แก้ไขสินค้า */}
         {editingProduct && (
           <EditProduct
+            productId={editingProduct.id}
             initialData={editingProduct}
             onClose={() => setEditingProduct(null)}
             onEdited={handleEdited}
+            onUpdated={handleEdited}
           />
         )}
 
@@ -107,7 +110,7 @@ export default function ProductList() {
                   product_id={p.id}
                   name={p.name}
                   price={p.price}
-                  image={p.image}
+                  image={p.product_image}
                   onDelete={() => handleDelete(p.id)}
                   onEdit={() => setEditingProduct(p)}
                   onViewMore={() => handleViewMore(p.id)}

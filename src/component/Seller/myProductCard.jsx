@@ -35,7 +35,7 @@ export default function MyProductCard({ product_id, name, price, image, descript
             </div>
 
             <img
-                src={image}
+                src={image?.[0]}
                 alt={name}
                 className="w-24 h-24 object-cover rounded-md"
             />

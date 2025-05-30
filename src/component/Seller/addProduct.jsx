@@ -45,6 +45,7 @@ export default function AddProduct({ onClose, onAdded }) {
     try {
       await axios.post("http://localhost:8080/api/products", formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
       });
 
       alert("Product added successfully!");
@@ -182,12 +183,34 @@ export default function AddProduct({ onClose, onAdded }) {
 
             <div>
               <label className="block font-medium mb-1">Category</label>
-              <input
+              <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                placeholder="e.g. Toys, Fashion, Electronics"
+                required
                 className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-purple-300"
-              />
+              >
+                <option value="" disabled>Select Category</option>
+                <option value="Crybaby">Crybaby</option>
+                <option value="Labubu">Labubu</option>
+                <option value="Dimoo">Dimoo</option>
+                <option value="Skullpanda">Skullpanda</option>
+                <option value="Hacipupu">Hacipupu</option>
+                <option value="Molly">Molly</option>
+                <option value="Pucky">Pucky</option>
+                <option value="Instinctoy">Instinctoy</option>
+                <option value="Hirono">Hirono</option>
+                <option value="Baby three">Baby three</option>
+                <option value="Dodowo puppy">Dodowo puppy</option>
+                <option value="Crayon shinchan">Crayon shinchan</option>
+                <option value="Nyota">Nyota</option>
+                <option value="Farmer Bob">Farmer Bob</option>
+                <option value="Panghu">Panghu</option>
+                <option value="Lulu">Lulu</option>
+                <option value="Zsiga">Zsiga</option>
+                <option value="Panda Roll">Panda Roll</option>
+                <option value="Kimmon">Kimmon</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <div>
@@ -257,13 +280,13 @@ export default function AddProduct({ onClose, onAdded }) {
               className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-purple-300"
             />
           </div>
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition flex justify-end"
-          >
-            Add Product
-          </button></div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition flex justify-end"
+            >
+              Add Product
+            </button></div>
         </form>
       </div>
     </div>

@@ -43,7 +43,7 @@ export default function ProductList({ searchResults, keyword = "", isSearching =
           </p>
         )}
 
-        {!noResult &&
+        {!noResult && Array.isArray(displayProducts) &&
           displayProducts.map((item) => (
             <ProductCard
               key={item.id}

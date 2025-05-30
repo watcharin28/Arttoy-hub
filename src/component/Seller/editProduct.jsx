@@ -14,12 +14,16 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
   const [previewImages, setPreviewImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]); // รูปที่มีในสินค้าเดิม (URL)
   const fileInputRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState("");
 
   // โหลดข้อมูลสินค้าเดิมตอน mount
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await axios.get(`http://localhost:8080/api/products/${productId}`);
+        const res = await axios.get(`http://localhost:8080/api/products/${productId}`, {
+          withCredentials: true,
+        });
         const product = res.data;
 
         setName(product.name || "");
@@ -29,13 +33,24 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
         setModel(product.model || "");
         setColor(product.color || "");
         setSize(product.size || "");
-        setExistingImages(product.images || []); // สมมติ backend คืน array URL ของรูปเก่า
+        setExistingImages(product.product_image || []); // สมมติ backend คืน array URL ของรูปเก่า
       } catch (error) {
         console.error("Failed to load product:", error);
       }
     }
     fetchProduct();
   }, [productId]);
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await axios.get("http://localhost:8080/api/categories");
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   // ฟังก์ชันจัดการ upload รูปใหม่เหมือนเดิม
   const handleFileChange = (e) => {
@@ -80,13 +95,14 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
     formData.append("existing_images", JSON.stringify(existingImages));
 
     try {
-      await axios.put(`http://localhost:8080/api/products/${productId}`, formData, {
+      const res = await axios.put(`http://localhost:8080/api/products/${productId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
       });
 
       alert("Product updated successfully!");
 
-      onUpdated();
+      onUpdated?.(res.data);
       onClose();
     } catch (error) {
       console.error(error);
@@ -240,12 +256,34 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
 
             <div>
               <label className="block font-medium mb-1">Category</label>
-              <input
+              <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                placeholder="e.g. Toys, Fashion, Electronics"
+                required
                 className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-purple-300"
-              />
+              >
+                <option value="" disabled>Select Category</option>
+                <option value="Crybaby">Crybaby</option>
+                <option value="Labubu">Labubu</option>
+                <option value="Dimoo">Dimoo</option>
+                <option value="Skullpanda">Skullpanda</option>
+                <option value="Hacipupu">Hacipupu</option>
+                <option value="Molly">Molly</option>
+                <option value="Pucky">Pucky</option>
+                <option value="Instinctoy">Instinctoy</option>
+                <option value="Hirono">Hirono</option>
+                <option value="Baby three">Baby three</option>
+                <option value="Dodowo puppy">Dodowo puppy</option>
+                <option value="Crayon shinchan">Crayon shinchan</option>
+                <option value="Nyota">Nyota</option>
+                <option value="Farmer Bob">Farmer Bob</option>
+                <option value="Panghu">Panghu</option>
+                <option value="Lulu">Lulu</option>
+                <option value="Zsiga">Zsiga</option>
+                <option value="Panda Roll">Panda Roll</option>
+                <option value="Kimmon">Kimmon</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <div>
@@ -315,13 +353,13 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
               className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-purple-300"
             />
           </div>
-              <div className="flex justify-end">
-          <button
-            type="submit"
-            className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition"
-          >
-            Update Product
-          </button></div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition"
+            >
+              Update Product
+            </button></div>
         </form>
       </div>
     </div>
