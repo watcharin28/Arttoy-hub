@@ -1,15 +1,15 @@
 import Header from "../component/Buyer/Header";
 import NavBar from "../component/Buyer/navbar";
-import StoreDetail from "../component/Buyer/SellerStoreDetail/storeDetail";
-const SellerStoreDetailPage = () => {
+import Cart from "../component/Buyer/Cart";
+const CartPage = () => {
     return (
       <div>
         <Header/>
         <NavBar/>
-        <StoreDetail/>
+        <Cart/>
         
       </div>
     );
   };
   
-  export default SellerStoreDetailPage;
+  export default  CartPage;
