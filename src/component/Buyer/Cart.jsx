@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-//ดึง Api  
-  const [cartItems, setCartItems] = useState([
 
-  ]);
+
+  //ดึง Api 
+
+
 
   const removeFromCart = (productId) => {
     setCartItems(items => items.filter(item => item.product.id !== productId));
@@ -53,6 +57,13 @@ const Cart = () => {
     navigate('/checkout', { state: { items: selectedItems } });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p>Loading your cart...</p>
+      </div>
+    );
+  }
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -218,8 +229,8 @@ const Cart = () => {
               disabled={selectedItems.length === 0}
               onClick={handleCheckout}
               className={`mt-3 w-full py-2 text-sm font-semibold text-black rounded ${selectedItems.length === 0
-                  ? 'bg-gray-300 cursor-not-allowed'
-                  : 'bg-yellow-400 hover:bg-yellow-500'
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-yellow-400 hover:bg-yellow-500'
                 }`}
             >
               Checkout ฿{total.toLocaleString()}

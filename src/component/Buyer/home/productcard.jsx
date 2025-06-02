@@ -60,7 +60,7 @@ export default function ProductCard({ product_id, name, price, image }) {
 
 
   return (
-    <div className="relative border rounded-xl shadow-md  w-64">
+    <div className="relative border rounded-xl shadow-md min-w-64 bg-white">
       <img
         src={image?.[0]}
         alt={name}
