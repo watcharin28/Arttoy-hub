@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // Star Component
@@ -26,15 +26,32 @@ const statusColors = {
   completed: "bg-green-200 text-green-800",
 };
 
-export default function PurchaseCard({
-  order,
-  onConfirm,
-  onReview,
-  loading,
-}) {
+export default function PurchaseCard({ order, onComplete, onReview, loading, userReviews }) {
+  const [productDetails, setProductDetails] = useState({});
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+
+  // สมมุติว่าใช้ product_id ตัวแรก
+  const productId = order.items[0]?.product_id;
+  const hasReviewed = userReviews?.some((r) => r.product_id === productId);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productMap = {};
+      for (let item of order.items) {
+        try {
+          const res = await axios.get(`http://localhost:8080/api/products/${item.product_id}`);
+          productMap[item.product_id] = res.data;
+        } catch (err) {
+          console.error("Error loading product:", err);
+        }
+      }
+      setProductDetails(productMap);
+    };
+
+    fetchProducts();
+  }, [order.items]);
 
   const handleReviewClick = () => {
     setShowReviewForm(true);
@@ -52,7 +69,7 @@ export default function PurchaseCard({
 
     try {
       await onReview(order.id, {
-        productID: order.items[0]?.item?.id,
+        productID: productId,
         rating,
         comment,
       });
@@ -78,7 +95,7 @@ export default function PurchaseCard({
       {/* Status Header */}
       <div
         className={`flex justify-end px-4 py-2 ${
-          statusColors[order.status] || "bg-gray-100 text-gray-700"
+          statusColors[order.status?.toLowerCase()] || "bg-gray-100 text-gray-700"
         }`}
       >
         <span className="px-3 py-1 rounded-full text-xs font-medium bg-white shadow-sm">
@@ -88,33 +105,36 @@ export default function PurchaseCard({
 
       {/* Items */}
       <div className="flex flex-col gap-4 p-4">
-        {order.items.map((itemWrapper, index) => (
-          <div key={index} className="flex gap-4 items-center">
-            <img
-              src={itemWrapper.item?.product_image?.[0] || "/images/placeholder.png"}
-              alt={itemWrapper.item?.name || "Product"}
-              className="w-20 h-20 rounded-xl object-cover border"
-            />
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800">
-                {itemWrapper.item?.name || "No Name"}
-              </h3>
-              <p className="text-sm text-gray-500">฿ {itemWrapper.price}</p>
+        {order.items.map((item, index) => {
+          const product = productDetails[item.product_id];
+          return (
+            <div key={index} className="flex gap-4 items-center">
+              <img
+                src={product?.product_image?.[0] || "/images/placeholder.png"}
+                alt={product?.name || "Product"}
+                className="w-20 h-20 rounded-xl object-cover border"
+              />
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {product?.name || "No Name"}
+                </h3>
+                <p className="text-sm text-gray-500">฿ {item.price}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Tracking Info */}
       <div className="px-4 pb-2 text-sm text-gray-600">
-        {order.trackingNumber && (
+        {order.tracking_number && (
           <p>
-            Tracking Number: <span className="font-mono">{order.trackingNumber}</span>
+            Tracking Number: <span className="font-mono">{order.tracking_number}</span>
           </p>
         )}
-        {order.shippingService && (
+        {order.sender_name && (
           <p>
-            Service: <span className="font-mono">{order.shippingService}</span>
+            Service: <span className="font-mono">{order.sender_name}</span>
           </p>
         )}
       </div>
@@ -128,13 +148,13 @@ export default function PurchaseCard({
       </div>
 
       {/* Actions */}
-      {(order.status === "processing" || order.status === "completed") && (
+      {(order.status?.toLowerCase() === "processing" || order.status?.toLowerCase() === "completed") && (
         <>
           <hr className="border-gray-300 mx-4" />
           <div className="px-4 py-3 flex gap-2 justify-end">
-            {order.status === "processing" && (
+            {order.status?.toLowerCase() === "processing" && (
               <button
-                onClick={() => onConfirm(order.id)}
+                onClick={() => onComplete(order.id)}
                 disabled={loading}
                 className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${
                   loading ? "bg-purple-400 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700"
@@ -143,7 +163,7 @@ export default function PurchaseCard({
                 {loading ? "Loading..." : "Confirm Receipt"}
               </button>
             )}
-            {order.status === "completed" && (
+            {order.status?.toLowerCase() === "completed" && !hasReviewed && (
               <button
                 onClick={handleReviewClick}
                 disabled={loading}
@@ -153,6 +173,9 @@ export default function PurchaseCard({
               >
                 {loading ? "Loading..." : "Review Product"}
               </button>
+            )}
+            {order.status?.toLowerCase() === "completed" && hasReviewed && (
+              <p className="text-sm text-gray-500">You have already reviewed this product.</p>
             )}
           </div>
         </>

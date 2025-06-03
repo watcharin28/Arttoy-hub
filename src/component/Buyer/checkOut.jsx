@@ -43,9 +43,10 @@ const Checkout = () => {
     const shippingFee = 40;
     const total = subtotal + shippingFee;
     console.log("Address object being sent:", address);
+    console.log(items)
     const handlePayment = async () => {
         const payloadItems = items.map(i => ({
-            id: i.product.id,
+            id: i.item.id, 
             quantity: i.quantity || 1,
         }));
         console.log("Items being sent:", payloadItems);
