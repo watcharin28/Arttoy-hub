@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory }) => {
@@ -7,7 +7,7 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
   const [activeTab, setActiveTab] = useState('home');
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
+  const location = useLocation();
 
   const categories = [
     'Crybaby', 'Labubu', 'Dimoo', 'Skullpanda', 'Hacipupu',
@@ -32,10 +32,15 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
   e.preventDefault();
   setActiveTab('home');
   setShowDropdown(false);
-  setSearchQuery('');
-  setCategory('');
-  setIsSearching(false);     
-  setSearchResults([]);     
+
+  //  ล้างค่าเฉพาะตอนอยู่หน้า Home
+  if (location.pathname === '/') {
+    setSearchQuery('');
+    setCategory('');
+    setIsSearching(false);
+    setSearchResults([]);
+  }
+
   navigate('/');
 };
   const handleCategoryClick = async (category) => {
