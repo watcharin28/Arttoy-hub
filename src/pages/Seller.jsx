@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "../component/Seller/header";
 import AppSidebar from "../component/Seller/sideBar";
-import MyOrder from "../component/Seller/MyOrder";
+import MyOrder from "../component/Seller/myOrder";
 import MyProductList from "../component/Seller/myProductList";
 import AddProduct from "../component/Seller/addProduct";
 
