@@ -19,7 +19,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
     setIsSearching(true);          //กำหนดว่าอยู่ในโหมดค้นหาแล้ว
 
     try {
-      const response = await axios.get(`http://localhost:8080/search?keyword=${keyword}`);
+      const response = await axios.get(`http://localhost:8080/api/products/search?keyword=${keyword}`);
       setSearchResults(response.data);
     } catch (err) {
       console.error("Error occurred while searching:", err);

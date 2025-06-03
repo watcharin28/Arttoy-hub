@@ -4,10 +4,13 @@ import NavBar from '../component/Buyer/navbar';
 import Banner from '../component/Buyer/banner';
 import ProductList from '../component/Buyer/home/productlist';
 
-const HomePage = () => {
+
+
+function HomePage() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [category, setCategory] = useState('');
 
   // state สำหรับเก็บหมวดหมู่ที่เลือกจาก NavBar (ส่งไป FilterSidebar ด้วย)
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -35,34 +38,31 @@ const HomePage = () => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         setSearchResults={setSearchResults}
-        setIsSearching={setIsSearching}
-      />
+        setIsSearching={setIsSearching} />
 
       {/* ส่ง callback ให้ NavBar เพื่อรับ category ที่เลือก */}
-      <NavBar onCategorySelect={handleCategorySelect} />
+      <NavBar
+        setSearchResults={setSearchResults}
+        setIsSearching={setIsSearching}
+        setSearchQuery={setSearchQuery}
+        setCategory={setCategory}
+      />
 
       {!isSearching && <Banner />}
 
       <div className="flex">
-        {isSearching && (
-          <FilterSidebar
-            selectedCategories={selectedCategories}
-            selectedCharacters={selectedCharacters}
-            onCategoryChange={setSelectedCategories}
-            onCharacterChange={setSelectedCharacters}
-          />
-        )}
 
         <div className="flex-1">
           <ProductList
             searchResults={searchResults}
             keyword={searchQuery}
-            isSearching={isSearching}
+            isSearching={isSearching} 
+            category={category}
           />
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default HomePage;
