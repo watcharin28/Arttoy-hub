@@ -21,10 +21,11 @@ function App() {
                 <Route path="/profile" element={<ProfilePage/>} />
                 <Route path="/sellerRegister" element={<SellerRegisterPage/>} />
                 <Route path="/seller/*" element={<SellerHomePage/>} />
-                <Route path="/product/:id" element={<ProductDetailPage />} />
+                <Route path="/product/:product_id" element={<ProductDetailPage />} />
                 <Route path="/checkout" element={<CheckOutPage />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/storeDetail/:storeId" element={<SellerStoreDetailPage />} />
+                <Route path="/seller-store/:seller_id" element={<SellerStoreDetailPage />} />
+                
             </Routes>
         </div>
     );

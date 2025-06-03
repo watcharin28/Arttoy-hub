@@ -1,20 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 const Cart = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
- 
+
 
   //ดึง Api 
+  useEffect(() => {
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get("http://localhost:8080/api/cart", {
+        withCredentials: true,
+      });
 
+      const cart = res.data.cart || [];
 
+      // แปลงเป็นโครงสร้างที่ Cart ใช้
+      const formattedItems = cart.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+        selected: false,
+        product: {
+          id: item.product_id,
+          name: item.name,
+          image: item.product_image,
+          price: item.price,
+          seller: item.seller_name, 
+        }
+      }));
 
-  const removeFromCart = (productId) => {
-    setCartItems(items => items.filter(item => item.product.id !== productId));
+      setCartItems(formattedItems);
+    } catch (err) {
+      console.error("Failed to fetch cart:", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  fetchCart();
+}, []);
+
+  const removeFromCart = async (productId) => {
+  try {
+    await axios.delete(`http://localhost:8080/api/cart/${productId}`, {
+      withCredentials: true,
+    });
+
+    setCartItems(items => items.filter(item => item.product.id !== productId));
+  } catch (err) {
+    console.error("Failed to remove item:", err);
+    alert("Failed to remove item from cart.");
+  }
+};
 
   const toggleItemSelection = (productId) => {
     setCartItems(items =>
@@ -44,8 +85,8 @@ const Cart = () => {
     (sum, item) => sum + item.product.price * (item.quantity || 1),
     0
   );
-  const shippingFee = 40;
-  const total = subtotal + shippingFee;
+  // const shippingFee = 40;
+  const total = subtotal ;
 
   const handleCheckout = () => {
     if (selectedItems.length === 0) {
@@ -218,7 +259,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-between mb-2 text-sm">
               <span>Shipping Fee</span>
-              <span>฿{shippingFee}</span>
+              
             </div>
             <div className="flex justify-between font-semibold text-base border-t pt-2">
               <span>Total</span>
