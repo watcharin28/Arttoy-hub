@@ -1,6 +1,6 @@
 import Header from "../component/Buyer/Header";
 import NavBar from "../component/Buyer/navbar";
-import StoreDetail from "../component/Buyer/tempDetail/storeDetail";
+import StoreDetail from "../component/Buyer/SellerStoreDetail/storeDetail";
 const SellerStoreDetailPage = () => {
     return (
       <div>
