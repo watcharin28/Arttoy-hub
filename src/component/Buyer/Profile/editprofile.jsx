@@ -87,77 +87,77 @@ export default function EditProfile() {
   };
 
   return (
-    <div>
-      <h1 className="text-lg font-bold mb-4 p-4">Edit Profile</h1>
-      <div className="flex gap-6 py-8 pl-24">
-        <form onSubmit={handleSubmit} className="flex-1 space-y-4">
+    <div className="mx-auto p-8 flex flex-col md:flex-row gap-8">
+     
+
+      {/* Form Section */}
+      <div className="w-full md:w-2/3">
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex justify-start">Edit Profile</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">User Name:</label>
+            <label className="block font-medium text-gray-700 mb-1">Username</label>
             <input
               type="text"
-              name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400 mb-2"
+              className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-400"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Phone Number:</label>
+            <label className="block font-medium text-gray-700 mb-1">Phone Number</label>
             <input
               type="text"
-              name="phonenumber"
               value={phonenumber}
               onChange={(e) => setPhonenumber(e.target.value)}
-              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400 mb-2"
+              className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-400"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Gmail:</label>
+            <label className="block font-medium text-gray-700 mb-1">Gmail</label>
             <input
-              type="gmail"
-              name="gmail"
+              type="email"
               value={gmail}
               onChange={(e) => setGmail(e.target.value)}
-              className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400 mb-2"
+              className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-400"
               required
             />
           </div>
 
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-          {success && <p className="text-green-500 text-sm mt-1">Data saved successfully!</p>}
+          {success && <p className="text-green-500 text-sm mt-1">Profile updated successfully!</p>}
 
           <button
             type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 mt-4"
           >
             Save
           </button>
         </form>
-
-        <div className="flex flex-col items-center pr-24">
-          <img
-            src={previewImage || '/images/user.png'}
-            alt="Profile"
-            className="w-32 h-32 rounded-full mb-3"
-          />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500"
-          >
-            Upload
-          </button>
-          <input
-            type="file"
-            id="file-input"
-            name="profileImage"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            className="hidden"
-          />
-        </div>
+      </div>
+       {/* Image Section */}
+      <div className="flex flex-col items-center justify-center w-full md:w-1/3">
+        <img
+          src={previewImage || '/images/user.png'}
+          alt="Profile"
+          className="w-32 h-32 rounded-full object-cover shadow mb-4"
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="bg-violet-500 text-white px-4 py-2 rounded-lg hover:bg-violet-600"
+        >
+          Upload Image
+        </button>
+        <input
+          type="file"
+          id="file-input"
+          name="profileImage"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          className="hidden"
+        />
       </div>
     </div>
   );

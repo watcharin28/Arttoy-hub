@@ -45,9 +45,9 @@ export default function ChangePassword() {
 
   return (
    
-      <div>
-        <h1 className="text-center text-2xl font-bold mb-6">Change Password</h1>
-        <form onSubmit={handleSubmit}>
+      <div className="px-12 py-6 max-w-6xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4">Change Password</h1>
+        <form onSubmit={handleSubmit} className="px-20">
           <div className="mb-4">
             <label htmlFor="oldPassword" className="block text-gray-700 mb-2">Old Password</label>
             <input
