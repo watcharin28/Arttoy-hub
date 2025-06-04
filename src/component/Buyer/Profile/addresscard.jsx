@@ -24,7 +24,7 @@ export default function AddressCard({ address, onEdit, onDelete }) {
             </svg>
           </div>
         </button>
-        <button onClick={() => onDelete(address)} className="text-gray-500">
+        <button onClick={() => onDelete(address._id)} className="text-gray-500">
           <div className="text-red-600 rounded">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
               viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
