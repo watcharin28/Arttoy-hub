@@ -108,7 +108,7 @@ const ProductDetail = () => {
     try {
       setAddingToCart(true);
       await axios.post(
-        "${API_URL}/api/cart/add",
+        `${API_URL}/api/cart/add`,
         {
           product_id: product_id,
           quantity: 1,
