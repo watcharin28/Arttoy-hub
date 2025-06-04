@@ -7,12 +7,14 @@ export default function Login() {
     const [phonenumber, setPhonenumber] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const API_URL = process.env.API_URL;
 
 
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Login`, {
+            // const response = await axios.post(`http://localhost:8080/Login`
+                const response = await axios.post(`${API_URL}/Login`, {
                 phonenumber, //body json
                 password
 

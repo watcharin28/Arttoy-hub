@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 
 export default function ProductCard({ product_id, name, price, image, category, model }) {
   const navigate = useNavigate();
-
+  const API_URL = process.env.API_URL;
   const [user_id, setUserId] = useState(null);
   const [liked, setLiked] = useState(false);
 
@@ -17,7 +17,7 @@ export default function ProductCard({ product_id, name, price, image, category, 
         const decoded = jwt_decode(token);
         setUserId(decoded.user_id);
 
-        axios.get(`http://localhost:8080/api/user/favorites/status/${product_id}`, {
+        axios.get(`${API_URL}/api/user/favorites/status/${product_id}`, {
           withCredentials: true,
         })
           .then(response => {
@@ -40,7 +40,7 @@ export default function ProductCard({ product_id, name, price, image, category, 
 
     try {
       await axios.post(
-        `http://localhost:8080/api/user/favorites/${product_id}`,
+        `${API_URL}/api/user/favorites/${product_id}`,
         {},
         { withCredentials: true }
       );

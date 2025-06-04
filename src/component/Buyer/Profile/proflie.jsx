@@ -9,14 +9,14 @@ export default function Profile() {
   const [phonenumber, setPhonenumber] = useState('');
   const [profileImage, setProfileImage] = useState('/images/AThub.png');
   const [error, setError] = useState(null);
-
+  const API_URL = process.env.API_URL;
   const navigate = useNavigate();
 
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
+        const response = await axios.get(`${API_URL}/api/user/Profile`, {
           withCredentials: true, //  ต้องใส่ตัวนี้เพื่อส่ง cookie
           
         });

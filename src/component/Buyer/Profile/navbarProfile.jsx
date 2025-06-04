@@ -12,11 +12,11 @@ export default function NavbarProfile() {
   const [username, setUsername] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [activeTab, setActiveTab] = useState('profile');
-
+  const API_URL = process.env.API_URL;
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
+        const response = await axios.get(`${API_URL}/api/user/Profile`, {
           withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
 
         });

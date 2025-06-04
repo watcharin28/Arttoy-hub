@@ -14,7 +14,7 @@ export default function Register() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-
+  const API_URL = process.env.API_URL;
   async function handleSubmitRequestOTP(e) {
     e.preventDefault();
     setError(null);
@@ -26,7 +26,7 @@ export default function Register() {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8080/register/request-otp`, {
+      const response = await axios.post(`${API_URL}/register/request-otp`, {
         username: username,
         gmail: email,
         phonenumber: phonenumber,
@@ -50,7 +50,7 @@ export default function Register() {
     setError(null);
 
     try {
-      const response = await axios.post(`http://localhost:8080/register/verify-otp`, {
+      const response = await axios.post(`${API_URL}/register/verify-otp`, {
         gmail: email,
         otp: otp
       });

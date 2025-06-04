@@ -8,13 +8,13 @@ const StoreDetail = () => {
   const navigate = useNavigate();
   const [seller, setSeller] = useState(null);
   const [sellerItems, setSellerItems] = useState([]);
-
+  const API_URL = process.env.API_URL;
   useEffect(() => {
     if (!seller_id) return;
     const fetchData = async () => {
       try {
-        const sellerRes = await axios.get(`http://localhost:8080/api/sellers/${seller_id}`);
-        const productRes = await axios.get(`http://localhost:8080/api/sellers/${seller_id}/products`);
+        const sellerRes = await axios.get(`${API_URL}/api/sellers/${seller_id}`);
+        const productRes = await axios.get(`${API_URL}/api/sellers/${seller_id}/products`);
         console.log("สินค้า:", productRes.data);
         const availableItems = productRes.data.filter(item => !item.is_sold);
 

@@ -12,7 +12,7 @@ export default function AddProduct({ onClose, onAdded }) {
   const [imageFiles, setImageFiles] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef(null);
-
+  const API_URL = process.env.API_URL;
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
     const updatedFiles = [...imageFiles, ...newFiles];
@@ -43,7 +43,7 @@ export default function AddProduct({ onClose, onAdded }) {
     });
 
     try {
-      await axios.post("http://localhost:8080/api/products", formData, {
+      await axios.post(`${API_URL}/api/products`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

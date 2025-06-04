@@ -33,14 +33,14 @@ const ProductDetail = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userId, setUserId] = useState(null);
   const [addingToCart, setAddingToCart] = useState(false);
-
+  const API_URL = process.env.API_URL;
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
         setError(null);
         const res = await axios.get(
-          `http://localhost:8080/api/products/${product_id}`,
+          `${API_URL}/api/products/${product_id}`,
           { withCredentials: true }
         );
         setProduct(res.data);
@@ -65,7 +65,7 @@ const ProductDetail = () => {
 
         axios
           .get(
-            `http://localhost:8080/api/user/favorites/status/${product_id}`,
+            `${API_URL}/api/user/favorites/status/${product_id}`,
             { withCredentials: true }
           )
           .then((response) => {
@@ -88,7 +88,7 @@ const ProductDetail = () => {
 
     try {
       await axios.post(
-        `http://localhost:8080/api/user/favorites/${product_id}`,
+        `${API_URL}/api/user/favorites/${product_id}`,
         {},
         { withCredentials: true }
       );
@@ -108,7 +108,7 @@ const ProductDetail = () => {
     try {
       setAddingToCart(true);
       await axios.post(
-        "http://localhost:8080/api/cart/add",
+        "${API_URL}/api/cart/add",
         {
           product_id: product_id,
           quantity: 1,

@@ -10,10 +10,11 @@ export default function AddressList() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [error, setError] = useState("");
-
+  const API_URL = process.env.API_URL;
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/user/addresses', {
+      // const response = await axios.get('http://localhost:8080/api/user/addresses'
+      const response = await axios.get(`${API_URL}/api/user/addresses`, {
         withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
 
       });
@@ -28,7 +29,9 @@ export default function AddressList() {
 
 const handleAddAddress = async (newAddress) => {
   try {
-    const response = await axios.put('http://localhost:8080/api/user/shipping-address', newAddress, { withCredentials: true });
+    
+    // const response = await axios.put(`http://localhost:8080/api/user/shipping-address`
+    const response = await axios.put(`${API_URL}/api/user/shipping-address`, newAddress, { withCredentials: true });
     const addedAddress = response.data.address; //  ดึง address จริง
 
     if (addedAddress.isDefault) {
@@ -60,7 +63,7 @@ const handleAddAddress = async (newAddress) => {
   const handleUpdateAddress = async (updatedAddress) => {
     console.log("Updating address with id:", updatedAddress.id);
     try {
-      const response = await axios.put(`http://localhost:8080/api/user/addresses/${updatedAddress.id}`, updatedAddress, { withCredentials: true });
+      const response = await axios.put(`${API_URL}/api/user/addresses/${updatedAddress.id}`, updatedAddress, { withCredentials: true });
       const updated = response.data;
 
       setAddresses((prev) =>
@@ -81,7 +84,7 @@ const handleAddAddress = async (newAddress) => {
     if (!window.confirm("Are you sure you want to delete this address?")) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/user/addresses/${addressId}`, {
+      await axios.delete(`${API_URL}/api/user/addresses/${addressId}`, {
         withCredentials: true,
       });
       setAddresses((prev) => prev.filter((addr) => addr.id !== addressId));

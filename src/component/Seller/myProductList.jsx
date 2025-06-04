@@ -10,12 +10,12 @@ export default function ProductList() {
   const [adding, setAdding] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const navigate = useNavigate();
-
+  const API_URL = process.env.API_URL;
   // โหลดสินค้าเมื่อ component mount
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await axios.get("http://localhost:8080/api/products/my-products",
+        const res = await axios.get(`${API_URL}/api/products/my-products`,
           { withCredentials: true });
         setProducts(res.data || []);
       } catch (error) {
@@ -31,7 +31,7 @@ export default function ProductList() {
     if (!window.confirm("Are you sure to delete this product?")) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/products/${id}`, {
+      await axios.delete(`${API_URL}/api/products/${id}`, {
         withCredentials: true,
       });
       setProducts((prev) => prev.filter((p) => p.id !== id));

@@ -5,11 +5,13 @@ import axios from "axios";
 export default function ProductList({ searchResults, keyword = "", category, isSearching = false }) {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  
+  const API_URL = process.env.API_URL;
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/products");
+        const response = await axios.get(`${API_URL}/api/products}`);
+        
+        // const response = await axios.get("http://localhost:8080/api/products");
         setProducts(response.data);
       } catch (err) {
         console.error("Error occurred!", err);

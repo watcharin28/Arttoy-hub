@@ -8,6 +8,7 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const API_URL = process.env.API_URL;
 
   const categories = [
     'Crybaby', 'Labubu', 'Dimoo', 'Skullpanda', 'Hacipupu',
@@ -50,7 +51,7 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
     setIsSearching(true);
     setShowDropdown(false);
     try {
-      const res = await axios.get(`http://localhost:8080/api/products/search?category=${category}`);
+      const res = await axios.get(`${API_URL}/api/products/search?category=${category}`);
       setSearchResults(res.data);
     } catch (err) {
       console.error("Error loading category products:", err);

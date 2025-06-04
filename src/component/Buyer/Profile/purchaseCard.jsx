@@ -31,7 +31,7 @@ export default function PurchaseCard({ order, onComplete, onReview, loading, use
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-
+  const API_URL = process.env.API_URL;
   // สมมุติว่าใช้ product_id ตัวแรก
   const productId = order.items[0]?.product_id;
   const hasReviewed = userReviews?.some((r) => r.product_id === productId);
@@ -41,7 +41,7 @@ export default function PurchaseCard({ order, onComplete, onReview, loading, use
       const productMap = {};
       for (let item of order.items) {
         try {
-          const res = await axios.get(`http://localhost:8080/api/products/${item.product_id}`);
+          const res = await axios.get(`${API_URL}/api/products/${item.product_id}`);
           productMap[item.product_id] = res.data;
         } catch (err) {
           console.error("Error loading product:", err);

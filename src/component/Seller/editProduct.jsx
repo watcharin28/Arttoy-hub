@@ -16,12 +16,12 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
   const fileInputRef = useRef(null);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
-
+  const API_URL = process.env.API_URL;
   // โหลดข้อมูลสินค้าเดิมตอน mount
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await axios.get(`http://localhost:8080/api/products/${productId}`, {
+        const res = await axios.get(`${API_URL}/api/products/${productId}`, {
           withCredentials: true,
         });
         const product = res.data;
@@ -43,7 +43,7 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get("http://localhost:8080/api/categories");
+        const res = await axios.get(`${API_URL}/api/categories`);
         setCategories(res.data);
       } catch (err) {
         console.error("Failed to load categories:", err);

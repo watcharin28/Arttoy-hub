@@ -14,11 +14,11 @@ export default function EditProfile() {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   // const user_id = Cookies.get('user_id');
-
+  const API_URL = process.env.API_URL;
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/user/Profile`, {
+        const response = await axios.get(`${API_URL}/api/user/Profile`, {
           withCredentials: true, // สำคัญ: ต้องใส่ตัวนี้เพื่อส่ง cookie
           
         });
@@ -65,7 +65,7 @@ export default function EditProfile() {
     }
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/user/Profile`, formData, {
+      const response = await axios.put(`${API_URL}/api/user/Profile`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -7,11 +7,11 @@ export default function MyOrder() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingUpdateId, setLoadingUpdateId] = useState(null); // เพิ่ม state สำหรับ loading ตอน update
-
+  const API_URL = process.env.API_URL;
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/orders/seller`, {
+        const response = await axios.get(`${API_URL}/api/orders/seller`, {
           withCredentials: true,
         });
         console.log("✅ response.data = ", response.data);
@@ -71,7 +71,7 @@ export default function MyOrder() {
   try {
     const response = await axios({
       method,
-      url: `http://localhost:8080${url}`,
+      url: `${API_URL}${url}`,
       data: body,
       withCredentials: true,
     });

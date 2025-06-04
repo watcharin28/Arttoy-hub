@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const API_URL = process.env.API_URL;
   const [inputValue, setInputValue] = useState("");
   const handleSearch = async (event) => {
   event.preventDefault();
@@ -19,7 +20,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
     setIsSearching(true);          //กำหนดว่าอยู่ในโหมดค้นหาแล้ว
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/products/search?keyword=${keyword}`);
+      const response = await axios.get(`${API_URL}/api/products/search?keyword=${keyword}`);
       setSearchResults(response.data);
     } catch (err) {
       console.error("Error occurred while searching:", err);
@@ -38,7 +39,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
       console.log("Logout clicked");
 
       // เรียก API ลบ cookie/token ที่ backend
-      await axios.post('http://localhost:8080/api/user/logout', {}, {
+      await axios.post(`${API_URL}/api/user/logout`, {}, {
         withCredentials: true, 
       });
 
@@ -55,7 +56,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
 
   const handleSelling = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/Profile", {
+      const response = await axios.get(`${API_URL}/api/user/Profile`, {
         withCredentials: true,
       });
       const user = response.data;

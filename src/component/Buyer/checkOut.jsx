@@ -10,11 +10,11 @@ const Checkout = () => {
     const [address, setAddress] = useState(null);
     const [qrImage, setQrImage] = useState("");
     const [orderId, setOrderId] = useState(null);
-
+    const API_URL = process.env.API_URL;
     useEffect(() => {
         const fetchAddress = async () => {
             try {
-                const res = await axios.get("http://localhost:8080/api/user/addresses", {
+                const res = await axios.get(`${API_URL}/api/user/addresses`, {
                     withCredentials: true,
                 });
 
@@ -56,7 +56,7 @@ const Checkout = () => {
                 items: payloadItems,
                 address_id: address.id
             });
-            const res = await axios.post("http://localhost:8080/api/orders/qr", {
+            const res = await axios.post(`${API_URL}/api/orders/qr`, {
                 items: payloadItems,
                 address_id: address.id
             }, {
@@ -72,7 +72,7 @@ const Checkout = () => {
 
     const handleConfirmPayment = async () => {
         try {
-            await axios.post(`http://localhost:8080/api/orders/${orderId}/mark-paid`, {}, {
+            await axios.post(`${API_URL}/api/orders/${orderId}/mark-paid`, {}, {
                 withCredentials: true,
             });
             alert("Payment confirmed!");

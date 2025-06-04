@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 export default function LikeList() {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
-
+  const API_URL = process.env.API_URL;
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/user/favorites", {
+        const response = await axios.get(`${API_URL}/api/user/favorites`, {
           withCredentials: true,
         });
         console.log(response.data);
@@ -35,10 +35,10 @@ export default function LikeList() {
       }
       
       // ลบสินค้าจากรายการโปรดผ่าน API
-      await axios.delete(`http://localhost:8080/api/user/favorites/${product_id}`, {
+      await axios.delete(`${API_URL}/api/user/favorites/${product_id}`, {
         withCredentials: true, 
       });
-      const response = await axios.get("http://localhost:8080/api/user/favorites", {
+      const response = await axios.get(`${API_URL}/api/user/favorites`, {
         withCredentials: true, 
       });
       // อัปเดต favorites หลังจากลบสินค้าออก

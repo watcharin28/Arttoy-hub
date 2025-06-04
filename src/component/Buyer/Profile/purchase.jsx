@@ -7,11 +7,11 @@ export default function Purchase() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingUpdateId, setLoadingUpdateId] = useState(null);
-
+    const API_URL = process.env.API_URL;
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/orders/seller`, {
+                const response = await axios.get(`${API_URL}/api/orders/seller`, {
                     withCredentials: true,
                 });
                 setOrders(response.data.orders || []);
@@ -62,12 +62,12 @@ export default function Purchase() {
         try {
             await axios({
                 method,
-                url: `http://localhost:8080${url}`,
+                url: `${API_URL}${url}`,
                 data: body,
                 withCredentials: true,
             });
             // Refresh orders
-            const res = await axios.get(`http://localhost:8080/api/orders/seller`, {
+            const res = await axios.get(`${API_URL}/api/orders/seller`, {
                 withCredentials: true,
             });
             setOrders(res.data.orders || []);
@@ -89,7 +89,7 @@ export default function Purchase() {
     const handleReviewSubmit = async (orderId, reviewData) => {
         try {
             await axios.post(
-                `http://localhost:8080/api/reviews`,
+                `${API_URL}/api/reviews`,
                 {
                     orderID: orderId,
                     productID: reviewData.productID,
