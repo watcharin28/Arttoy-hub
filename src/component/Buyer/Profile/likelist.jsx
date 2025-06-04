@@ -50,8 +50,8 @@ export default function LikeList() {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">My Like</h2>
+      <div className="px-12 py-6 max-w-6xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6">My Like</h2>
       {error && <p className="text-red-500 mb-2">{error}</p>}
 
       <div className="flex flex-col gap-4">
@@ -63,6 +63,8 @@ export default function LikeList() {
               name={item.name}
               price={item.price}
               image={item.product_image?.[0]}
+              category={item.category}
+              type={item.type}
               onDelete={handleDelete} 
             />
           ))

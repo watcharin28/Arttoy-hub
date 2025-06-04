@@ -77,23 +77,42 @@ const handleAddAddress = async (newAddress) => {
     }
   };
 
+   const handleDeleteAddress = async (addressId) => {
+    if (!window.confirm("Are you sure you want to delete this address?")) return;
+
+    try {
+      await axios.delete(`http://localhost:8080/api/user/addresses/${addressId}`, {
+        withCredentials: true,
+      });
+      setAddresses((prev) => prev.filter((addr) => addr.id !== addressId));
+      setError("");
+    } catch (error) {
+      setError("Unable to delete the address.");
+      console.error("Error deleting address:", error);
+    }
+  };
+
+
   useEffect(() => {
     fetchAddresses();
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="px-12 py-6 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold mb-4">My Address</h1>
+        <h1 className="text-2xl font-bold ">My Address</h1>
         <button
           onClick={() => {
             setIsModalOpen(true);
             setIsEditMode(false);
             setSelectedAddress(null);
           }}
-          className="p-2 text-sm bg-black text-white rounded"
+          className="p-2 text-sm bg-violet-500 text-white rounded flex item-center"
         >
-          Add Address
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4 mr-1">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
+Add Address
         </button>
       </div>
 
@@ -106,10 +125,11 @@ const handleAddAddress = async (newAddress) => {
               key={address.id}
               address={address}
               onEdit={handleEditAddress}
+              onDelete={handleDeleteAddress}
             />
           ))
         ) : (
-          <div className="text-gray-500">No addresses found.</div>
+          <div className="text-gray-500">You have not added an address yet.</div>
         )}
       </div>
 
@@ -128,3 +148,5 @@ const handleAddAddress = async (newAddress) => {
     </div>
   );
 }
+
+
