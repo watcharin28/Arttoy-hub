@@ -9,8 +9,8 @@ export default function ProductList({ searchResults, keyword = "", category, isS
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/products}`);
-        
+        const response = await axios.get(`${API_URL}/api/products`);
+        console.log('API_URL:', API_URL);
         // const response = await axios.get("http://localhost:8080/api/products");
         setProducts(response.data);
       } catch (err) {
