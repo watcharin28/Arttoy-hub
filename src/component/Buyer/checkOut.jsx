@@ -84,29 +84,29 @@ const Checkout = () => {
     };
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-gray-50">
             <header className="bg-white shadow-sm border-b w-full">
                 <div className="px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between w-full">
                     <button onClick={() => navigate(-1)} className="flex items-center">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
-                        Back
+                        <span className="ml-2 text-sm">Back</span>
                     </button>
-                    <h1 className="text-xl font-bold text-gray-900">Checkout</h1>
-                    <div style={{ width: 48 }}></div>
+                    <h1 className="text-lg sm:text-xl font-bold text-gray-900">Checkout</h1>
+                    <div className="w-5" />
                 </div>
             </header>
 
             <main className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div className="space-y-3 col-span-3">
-                    <div className="bg-white rounded-xl shadow p-10">
-                        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">Products Ordered</h2>
+                <div className="space-y-3 lg:col-span-3">
+                    <div className="bg-white rounded-xl shadow p-6 sm:p-10">
+                        <h2 className="text-xl font-semibold mb-4">Products Ordered</h2>
                         {Object.entries(groupedBySeller).map(([sellerName, sellerItems]) => (
                             <div key={sellerName} className="bg-gray-100 border border-gray-200 rounded-xl p-5 mb-4">
-                                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">{sellerName}</h2>
+                                <h2 className="text-lg font-semibold mb-4">{sellerName}</h2>
                                 {sellerItems.map(item => (
-                                    <div key={item._id || item.id} className="bg-white flex items-center space-x-4 mb-4 p-4 rounded-md shadow-sm">
+                                    <div key={item._id || item.id} className="bg-white flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4 p-4 rounded-md shadow-sm">
                                         <img
                                             src={
                                                 item.product?.product_image?.[0] ||      // จากตะกร้า (product.image เป็น array)
@@ -116,11 +116,11 @@ const Checkout = () => {
                                                 "/images/placeholder.png"
                                             }
                                             alt={item.name || item.product?.name || "Item"}
-                                            className="w-20 h-20 object-cover rounded"
+                                            className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded"
                                         />
-                                        <div className="flex-1 flex flex-col justify-between h-20">
+                                        <div className="flex-1 flex flex-col justify-between h-full">
                                             <p className="text-base font-medium">{item.name || item.product?.name}</p>
-                                            <p className="text-gray-600 text-base mt-auto">฿{(item.price || item.product?.price || 0).toLocaleString()}</p>
+                                            <p className="text-gray-600 text-base mt-1">฿{(item.price || item.product?.price || 0).toLocaleString()}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -129,16 +129,16 @@ const Checkout = () => {
                     </div>
                 </div>
 
-                <div className="space-y-3 col-span-2">
+                <div className="space-y-3 lg:col-span-2">
                     <div className="bg-white shadow rounded-xl overflow-hidden">
                         <div className="h-3 w-full" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #ef4444 0 10px, #ffffff 10px 20px, #3b82f6 20px 30px, #ffffff 30px 40px)' }} />
                         <div className="p-6">
                             <h2 className="text-lg font-semibold mb-3">Delivery Address</h2>
                             {address ? (
-                                <div className="text-gray-700">
+                                <div className="text-gray-700 text-sm">
                                     <p className="font-medium">{address.name}</p>
-                                    <p className="text-sm">{address.phone}</p>
-                                    <p className="text-sm mt-2">{address.address} {address.subdistrict} {address.district} {address.province} {address.zipcode}</p>
+                                    <p>{address.phone}</p>
+                                    <p className="mt-2">{address.address} {address.subdistrict} {address.district} {address.province} {address.zipcode}</p>
                                 </div>
                             ) : (
                                 <p className="text-sm text-red-500">No address available</p>
@@ -186,8 +186,8 @@ const Checkout = () => {
             </main>
 
             {showPaymentModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl max-w-md w-full p-6 relative">
+                <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">
+                    <div className="bg-white rounded-xl w-full max-w-md p-6 relative overflow-auto max-h-[90vh]">
                         <button onClick={() => setShowPaymentModal(false)} className="absolute top-3 right-3 text-gray-500 hover:text-black">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -195,8 +195,8 @@ const Checkout = () => {
                         </button>
                         <h2 className="text-lg font-semibold mb-4">Payment Details</h2>
                         <div className="text-center mb-6">
-                            <div className="w-48 h-48 mx-auto border-2 border-gray-300 rounded flex items-center justify-center">
-                                <img src={qrImage || "/images/Qr.png"} alt="Payment QR Code" />
+                            <div className="w-full max-w-xs h-auto mx-auto border-2 border-gray-300 rounded flex items-center justify-center">
+                                <img src={qrImage || "/images/Qr.png"} alt="Payment QR Code" className="w-full h-auto object-contain" />
                             </div>
                             <p className="text-sm text-gray-600 mt-3">Scan the QR Code above to pay</p>
                         </div>
