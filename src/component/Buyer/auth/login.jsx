@@ -22,7 +22,7 @@ export default function Login() {
             }, {
                 withCredentials: true  // <-- ต้องมีบรรทัดนี้!
             });
-
+            console.log('API_URL:', API_URL);
             console.log('Login Successful:', response.data);
             // Cookies.set('user_id' , response.data.user_id);//แก้ user_id     
             navigate('/');
