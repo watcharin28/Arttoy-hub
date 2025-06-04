@@ -13,7 +13,7 @@ export default function ChangePassword() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   const togglePasswordVisibility = (field) => {
     if (field === 'old') setShowOldPassword(prev => !prev);
     if (field === 'new') setShowNewPassword(prev => !prev);

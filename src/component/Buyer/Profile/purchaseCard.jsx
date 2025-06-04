@@ -31,7 +31,7 @@ export default function PurchaseCard({ order, onComplete, onReview, loading, use
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   // สมมุติว่าใช้ product_id ตัวแรก
   const productId = order.items[0]?.product_id;
   const hasReviewed = userReviews?.some((r) => r.product_id === productId);

@@ -7,7 +7,7 @@ export default function MyOrder() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingUpdateId, setLoadingUpdateId] = useState(null); // เพิ่ม state สำหรับ loading ตอน update
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   useEffect(() => {
     const fetchOrders = async () => {
       try {

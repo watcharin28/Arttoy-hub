@@ -14,7 +14,7 @@ export default function EditProfile() {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   // const user_id = Cookies.get('user_id');
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   useEffect(() => {
     const fetchProfile = async () => {
       try {

@@ -12,7 +12,7 @@ export default function NavbarProfile() {
   const [username, setUsername] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [activeTab, setActiveTab] = useState('profile');
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   useEffect(() => {
     const fetchProfile = async () => {
       try {

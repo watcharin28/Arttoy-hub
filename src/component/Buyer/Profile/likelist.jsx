@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function LikeList() {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -9,7 +9,7 @@ const SellerRegister = () => {
   const [phonenumber, setPhonenumber] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   useEffect(() => {
     const fetchProfile = async () => {
       try {

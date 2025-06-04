@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   const [inputValue, setInputValue] = useState("");
   const handleSearch = async (event) => {
   event.preventDefault();

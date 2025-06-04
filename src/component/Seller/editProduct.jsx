@@ -16,7 +16,7 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
   const fileInputRef = useRef(null);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   // โหลดข้อมูลสินค้าเดิมตอน mount
   useEffect(() => {
     async function fetchProduct() {

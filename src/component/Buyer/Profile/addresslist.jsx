@@ -10,7 +10,7 @@ export default function AddressList() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [error, setError] = useState("");
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   const fetchAddresses = async () => {
     try {
       // const response = await axios.get('http://localhost:8080/api/user/addresses'

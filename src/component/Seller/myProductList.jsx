@@ -10,7 +10,7 @@ export default function ProductList() {
   const [adding, setAdding] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const navigate = useNavigate();
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   // โหลดสินค้าเมื่อ component mount
   useEffect(() => {
     async function fetchProducts() {

@@ -7,7 +7,7 @@ export default function Purchase() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingUpdateId, setLoadingUpdateId] = useState(null);
-    const API_URL = process.env.API_URL;
+    const API_URL = process.env.VITE_API_URL;
     useEffect(() => {
         const fetchOrders = async () => {
             try {

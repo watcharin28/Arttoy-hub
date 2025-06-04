@@ -7,7 +7,7 @@ export default function Login() {
     const [phonenumber, setPhonenumber] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const API_URL = process.env.API_URL;
+    const API_URL = process.env.VITE_API_URL;
 
 
     async function handleSubmit(e) {

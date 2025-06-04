@@ -33,7 +33,7 @@ const ProductDetail = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userId, setUserId] = useState(null);
   const [addingToCart, setAddingToCart] = useState(false);
-  const API_URL = process.env.API_URL;
+  const API_URL = process.env.VITE_API_URL;
   useEffect(() => {
     const fetchProduct = async () => {
       try {

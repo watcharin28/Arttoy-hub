@@ -6,14 +6,14 @@ const Cart = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const API_URL = process.env.VITE_API_URL;
 
   //ดึง Api 
   useEffect(() => {
   const fetchCart = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8080/api/cart", {
+      const res = await axios.get(`${API_URL}/api/cart`, {
         withCredentials: true,
       });
 
@@ -46,7 +46,7 @@ const Cart = () => {
 
   const removeFromCart = async (productId) => {
   try {
-    await axios.delete(`http://localhost:8080/api/cart/${productId}`, {
+    await axios.delete(`${API_URL}/api/cart/${productId}`, {
       withCredentials: true,
     });
 

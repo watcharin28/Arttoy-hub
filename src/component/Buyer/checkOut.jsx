@@ -10,7 +10,7 @@ const Checkout = () => {
     const [address, setAddress] = useState(null);
     const [qrImage, setQrImage] = useState("");
     const [orderId, setOrderId] = useState(null);
-    const API_URL = process.env.API_URL;
+    const API_URL = process.env.VITE_API_URL;
     useEffect(() => {
         const fetchAddress = async () => {
             try {
