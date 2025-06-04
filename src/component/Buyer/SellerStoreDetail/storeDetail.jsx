@@ -8,7 +8,7 @@ const StoreDetail = () => {
   const navigate = useNavigate();
   const [seller, setSeller] = useState(null);
   const [sellerItems, setSellerItems] = useState([]);
-  const API_URL = process.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     if (!seller_id) return;
     const fetchData = async () => {

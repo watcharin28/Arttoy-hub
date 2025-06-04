@@ -5,7 +5,7 @@ import axios from "axios";
 export default function ProductList({ searchResults, keyword = "", category, isSearching = false }) {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  const API_URL = process.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchProducts = async () => {
       try {

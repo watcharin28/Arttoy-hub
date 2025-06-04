@@ -8,7 +8,7 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const API_URL = process.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const categories = [
     'Crybaby', 'Labubu', 'Dimoo', 'Skullpanda', 'Hacipupu',

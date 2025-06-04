@@ -9,7 +9,7 @@ export default function Profile() {
   const [phonenumber, setPhonenumber] = useState('');
   const [profileImage, setProfileImage] = useState('/images/AThub.png');
   const [error, setError] = useState(null);
-  const API_URL = process.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
 
 

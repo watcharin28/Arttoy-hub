@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 
 export default function ProductCard({ product_id, name, price, image, category, model }) {
   const navigate = useNavigate();
-  const API_URL = process.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
   const [user_id, setUserId] = useState(null);
   const [liked, setLiked] = useState(false);
 
