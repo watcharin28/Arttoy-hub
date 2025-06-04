@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LikeCard from "./likecard";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 export default function LikeList() {
@@ -9,7 +8,17 @@ export default function LikeList() {
   const [error, setError] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
+  const [userId, setUserId] = useState(null);
 
+  useEffect(() => {
+    axios.get(`${API_URL}/api/user/profile`, { withCredentials: true })
+      .then(res => {
+        setUserId(res.data.user_id);
+      })
+      .catch(() => {
+        setUserId(null);
+      });
+  }, []);
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
       try {
@@ -25,7 +34,7 @@ export default function LikeList() {
     };
 
     fetchFavoriteProducts();
-  }, [navigate]);
+  }, [userId]);
 
   const handleDelete = async (product_id) => {
     try {
