@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
-export default function ProductCard({ product_id, name, price, image, category, type }) {
+export default function ProductCard({ product_id, name, price, image, category, model }) {
   const navigate = useNavigate();
 
   const [user_id, setUserId] = useState(null);
@@ -73,9 +73,9 @@ export default function ProductCard({ product_id, name, price, image, category, 
             {category}
           </span>
         )}
-        {type && (
+        {model && (
           <span className="border border-indigo-500 text-indigo-600 px-2 py-1 rounded text-sm font-semibold capitalize">
-            {type === "checked_with_card" ? "Checked with Card" : type}
+            {model === "checked_with_card" ? "Checked with Card" : model}
           </span>
         )}
       </div>

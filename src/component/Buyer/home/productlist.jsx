@@ -5,7 +5,7 @@ import axios from "axios";
 export default function ProductList({ searchResults, keyword = "", category, isSearching = false }) {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -68,6 +68,7 @@ export default function ProductList({ searchResults, keyword = "", category, isS
                 price={item.price}
                 image={item.product_image}
                 category={item.category}
+                model={item.model}
                 type={item.type}
               />
             ))}

@@ -46,7 +46,7 @@ const Checkout = () => {
     console.log(items)
     const handlePayment = async () => {
         const payloadItems = items.map(i => ({
-            id: i.item.id, 
+            id: i.item.id,
             quantity: i.quantity || 1,
         }));
         console.log("Items being sent:", payloadItems);
@@ -108,7 +108,13 @@ const Checkout = () => {
                                 {sellerItems.map(item => (
                                     <div key={item._id || item.id} className="bg-white flex items-center space-x-4 mb-4 p-4 rounded-md shadow-sm">
                                         <img
-                                            src={item.product?.image || item.item?.product_image || item.image || "/images/placeholder.png"}
+                                            src={
+                                                item.product?.product_image?.[0] ||      // จากตะกร้า (product.image เป็น array)
+                                                item.product?.image ||                   // จากซื้อเลย (image อาจเป็น string)
+                                                item.item?.product_image?.[0] ||         // เผื่อมี item ซ้อน
+                                                item.image ||                            // image เดี่ยว
+                                                "/images/placeholder.png"
+                                            }
                                             alt={item.name || item.product?.name || "Item"}
                                             className="w-20 h-20 object-cover rounded"
                                         />
