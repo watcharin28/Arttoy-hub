@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const statusColors = {
   pending: "bg-yellow-200 text-yellow-800",
@@ -11,6 +12,8 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
   const [showShippingForm, setShowShippingForm] = useState(false);
   const [trackingNumber, setTrackingNumber] = useState("");
   const [shippingService, setShippingService] = useState("");
+    const navigate = useNavigate();
+
 
   const handleSubmitShipping = (e) => {
     e.preventDefault();
@@ -29,10 +32,17 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
     setShippingService("");
   };
 
-  const hasActionButton = order.status === "pending" || order.status === "shipping";
 
+  const handleViewDetail = () => {
+    if (order.items.length > 0) {
+      const product_id = order.items[0].item?.id;
+      if (product_id) {
+        navigate(`/product/${product_id}`);
+      }
+    }
+  };
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full transition hover:shadow-lg flex flex-col">
+    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full transition hover:shadow-lg flex flex-col" onClick={handleViewDetail}>
       {/* Card Header */}
       <div className={`flex justify-end px-4 py-2 ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
         <span className="px-3 py-1 rounded-full text-xs font-medium bg-white shadow-sm">
