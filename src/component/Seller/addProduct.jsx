@@ -62,6 +62,7 @@ export default function AddProduct({ onClose, onAdded }) {
 
       onAdded();
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error(error);
       alert("Failed to add product");
@@ -226,7 +227,7 @@ export default function AddProduct({ onClose, onAdded }) {
                 </option>
                 <option value="unsealed">Unsealed</option>
                 <option value="checked_with_card">Checked with Card</option>
-                <option value="keychain">Keychain</option>
+                
 
               </select>
             </div>
@@ -252,6 +253,7 @@ export default function AddProduct({ onClose, onAdded }) {
                 <option value="" disabled>
                   Select size
                 </option>
+                <option value="keychain">Keychain</option>
                 <option value="100%">100%</option>
                 <option value="400%">400%</option>
                 <option value="Other">Other</option>

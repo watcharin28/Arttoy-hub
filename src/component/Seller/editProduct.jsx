@@ -290,7 +290,7 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
                 </option>
                 <option value="unsealed">Unsealed</option>
                 <option value="checked_with_card">Checked with Card</option>
-                <option value="keychain">Keychain</option>
+                
               </select>
             </div>
 
@@ -315,6 +315,7 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
                 <option value="" disabled>
                   Select size
                 </option>
+                <option value="keychain">Keychain</option>
                 <option value="100%">100%</option>
                 <option value="400%">400%</option>
                 <option value="Other">Other</option>

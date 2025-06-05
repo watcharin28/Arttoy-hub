@@ -45,10 +45,24 @@ const Checkout = () => {
     console.log("Address object being sent:", address);
     console.log(items)
     const handlePayment = async () => {
-        const payloadItems = items.map(i => ({
-            id: i.item.id,
-            quantity: i.quantity || 1,
-        }));
+        console.log(items)
+
+        const payloadItems = items.map((i) => {
+            // ตรวจสอบตำแหน่งที่เก็บรหัสสินค้า (product ID)
+            const productId =
+                // กรณี “ซื้อเลย” จะใช้ i.id
+                i.id ||
+                // กรณี “ตะกร้า” อาจจะฝังไว้ใน i.item.id
+                i.item?.id ||
+                // กรณีสินค้าเก็บไว้ใน i.product._id
+                i.product?._id ||
+                "";
+
+            return {
+                id: productId,
+                quantity: i.quantity || 1,
+            };
+        });
         console.log("Items being sent:", payloadItems);
 
         try {
@@ -76,7 +90,7 @@ const Checkout = () => {
                 withCredentials: true,
             });
             alert("Payment confirmed!");
-             navigate("/profile", { state: { tab: "purchase" } });
+            navigate("/profile", { state: { tab: "purchase" } });
         } catch (err) {
             console.error("Failed to mark as paid", err);
             alert("Confirm failed.");

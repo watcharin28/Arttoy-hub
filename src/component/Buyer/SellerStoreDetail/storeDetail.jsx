@@ -106,6 +106,9 @@ const StoreDetail = () => {
                   name={item.name}
                   price={item.price}
                   image={item.product_image}
+                  category={item.category}
+                  model={item.model}
+                  type={item.type}
                 />
               ))}
             </div>

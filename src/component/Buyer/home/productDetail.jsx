@@ -102,6 +102,7 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = async () => {
+    
     if (!userId) {
       alert("Please log in to add products to your cart.");
       navigate("/login");
