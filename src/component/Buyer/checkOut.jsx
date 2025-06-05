@@ -63,7 +63,7 @@ const Checkout = () => {
                 withCredentials: true,
             });
             setOrderId(res.data.order_id);
-            setQrImage(res.data.qr_image);
+            setQrImage("/images/Qr.png");
             setShowPaymentModal(true);
         } catch (err) {
             console.error("Create order failed:", err.response?.data || err.message);
@@ -76,7 +76,7 @@ const Checkout = () => {
                 withCredentials: true,
             });
             alert("Payment confirmed!");
-            navigate("/orders");
+             navigate("/profile", { state: { tab: "purchase" } });
         } catch (err) {
             console.error("Failed to mark as paid", err);
             alert("Confirm failed.");

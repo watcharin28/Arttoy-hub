@@ -153,14 +153,11 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
               className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-500 transition-all cursor-pointer min-h-[160px] flex flex-col items-center justify-center"
               onClick={() => fileInputRef.current?.click()}
             >
-              {/* รูปเก่า */}
-              {existingImages.length > 0 && (
+              {(existingImages.length > 0 || previewImages.length > 0) && (
                 <div className="flex space-x-4 overflow-x-auto w-full px-2 mb-4">
+                  {/* รูปเก่า */}
                   {existingImages.map((img, index) => (
-                    <div
-                      key={`existing-${index}`}
-                      className="relative w-28 h-28 flex-shrink-0"
-                    >
+                    <div key={`existing-${index}`} className="relative w-28 h-28 flex-shrink-0">
                       <img
                         src={img}
                         alt={`existing-${index}`}
@@ -179,17 +176,10 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
                       </button>
                     </div>
                   ))}
-                </div>
-              )}
 
-              {/* รูปใหม่ */}
-              {previewImages.length > 0 && (
-                <div className="flex space-x-4 overflow-x-auto w-full px-2">
+                  {/* รูปใหม่ */}
                   {previewImages.map((img, index) => (
-                    <div
-                      key={`new-${index}`}
-                      className="relative w-28 h-28 flex-shrink-0"
-                    >
+                    <div key={`new-${index}`} className="relative w-28 h-28 flex-shrink-0">
                       <img
                         src={img}
                         alt={`preview-${index}`}
@@ -210,6 +200,7 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
                   ))}
                 </div>
               )}
+
 
               {/* ปุ่ม upload ถ้าไม่มีรูปเลย */}
               {!existingImages.length && !previewImages.length && (
@@ -299,11 +290,12 @@ export default function EditProduct({ productId, onClose, onUpdated }) {
                 </option>
                 <option value="unsealed">Unsealed</option>
                 <option value="checked_with_card">Checked with Card</option>
+                <option value="keychain">Keychain</option>
               </select>
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Color</label>
+              <label className="block font-medium mb-1">Color/Character</label>
               <input
                 value={color}
                 onChange={(e) => setColor(e.target.value)}

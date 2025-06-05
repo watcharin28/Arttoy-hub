@@ -49,19 +49,17 @@ export default function LikeList() {
     }
   };
 
-  return (
+return (
       <div className="px-12 py-6 max-w-6xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">My Like</h2>
       {error && <p className="text-red-500 mb-2">{error}</p>}
 
       <div className="flex flex-col gap-4">
         {favorites && Array.isArray(favorites) && favorites.length > 0 ? (
-          favorites
-          .filter((item) => !item.is_sold)
-          .map((item) => (
+          favorites.map((item) => (
             <LikeCard
-              key={item.id} 
-              product_id={item.id} 
+              key={item.id} // หรือใช้ item.product_id ถ้าใช้ชื่อเดียวกัน
+              product_id={item.id} // ใช้ชื่อ id หรือ product_id ขึ้นอยู่กับ API
               name={item.name}
               price={item.price}
               image={item.product_image?.[0]}

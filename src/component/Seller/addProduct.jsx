@@ -226,11 +226,13 @@ export default function AddProduct({ onClose, onAdded }) {
                 </option>
                 <option value="unsealed">Unsealed</option>
                 <option value="checked_with_card">Checked with Card</option>
+                <option value="keychain">Keychain</option>
+
               </select>
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Color</label>
+              <label className="block font-medium mb-1">Color/Character</label>
               <input
                 value={color}
                 onChange={(e) => setColor(e.target.value)}

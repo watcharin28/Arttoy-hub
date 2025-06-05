@@ -14,7 +14,7 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
     'Crybaby', 'Labubu', 'Dimoo', 'Skullpanda', 'Hacipupu',
     'Molly', 'Pucky', 'Instinctoy', 'Hirono', 'Baby three',
     'Dodowo puppy', 'Crayon shinchan', 'Nyota', 'Farmer Bob',
-    'Panghu', 'Lulu', 'Zsiga', 'Panda Roll', 'Kimmon',
+    'Panghu', 'Lulu', 'Zsiga', 'Panda Roll', 'Kimmon','Other'
   ];
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
   setActiveTab('home');
   setShowDropdown(false);
 
-  //  ล้างค่าเฉพาะตอนอยู่หน้า Home
   if (location.pathname === '/') {
     setSearchQuery('');
     setCategory('');
@@ -70,16 +69,19 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
 
   return (
     <div className="sticky top-20 bg-gray-100 shadow-md z-10">
-      <nav className="bg-violet-400 flex justify-start h-10 px-4 z-20">
-        <div className="flex items-end ml-24">
+      <nav className="bg-violet-400 flex flex-wrap justify-start px-2 sm:px-4 md:px-8 
+                      h-8 md:h-10 z-20">
+        <div className="flex items-center ml-2 sm:ml-8 md:ml-16 lg:ml-24 space-x-1 sm:space-x-2 md:space-x-4">
+          {/* All Category Button */}
           <button
             onClick={handleAllCategoryClick}
-            className={`flex items-center px-6 py-2 font-semibold text-white
-    ${showDropdown ? 'bg-yellow-600' : 'bg-yellow-400 hover:bg-yellow-500'}`}
+            className={`flex items-center px-2 md:px-6 py-2  font-semibold text-white
+              ${showDropdown ? 'bg-yellow-600' : 'bg-yellow-400 hover:bg-yellow-500'}
+              text-xs sm:text-sm md:text-base`}
           >
             All Category
             <svg
-              className="w-4 h-4 ml-2 transition-transform duration-300"
+              className={`w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2 transition-transform duration-300 ${showDropdown ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -88,19 +90,21 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d={showDropdown ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'} // 👈 เปลี่ยนตรงนี้
+                d={showDropdown ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'}
               />
             </svg>
           </button>
 
-
+          {/* Home Button */}
           <button
             onClick={handleHomeClick}
-            className={`text-white font-medium px-6 py-2 ml-4 h-10 flex items-center
+            className={`flex items-center px-2 md:px-6 py-4  font-medium text-white
               ${activeTab === 'home'
                 ? 'bg-violet-600'
                 : 'bg-violet-400 hover:bg-violet-600'}
-              transition-colors duration-200`}
+              transition-colors duration-200
+              text-xs sm:text-sm md:text-base
+              h-6 sm:h-8 md:h-10`}
           >
             Home
           </button>
@@ -108,28 +112,29 @@ const NavBar = ({ setSearchResults, setIsSearching, setSearchQuery, setCategory 
       </nav>
 
       {showDropdown && (
-
-        <div className="p-10 flex justify-center">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-x-12 gap-y-6 max-w-6xl  ">
+        <div className="p-4 sm:p-6 md:p-8 flex justify-center"
+        >
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-x-6 sm:gap-x-12 gap-y-4 sm:gap-y-6 max-w-6xl w-full">
             {categories.map(category => (
               <button
                 key={category}
                 onClick={() => handleCategoryClick(category)}
-                className={`p-2text-center transition-colors 
-                    ${activeTab === category
+                className={`text-center rounded transition-colors border
+                  ${activeTab === category
                     ? 'bg-violet-400 text-white border-violet-600'
-                    : 'text-gray-800 hover:bg-gray-50 hover:border-violet-300'}`}
+                    : 'text-gray-800 border-transparent hover:bg-gray-50 hover:border-violet-300'}
+                  text-xs sm:text-[0.65rem] md:text-sm
+                  p-1 sm:p-2 md:p-3
+                  truncate`}
               >
-                <div className="text-sm font-medium">{category}</div>
+                <div className="font-medium">{category}</div>
               </button>
             ))}
           </div>
         </div>
-
       )}
     </div>
   );
 };
-
 
 export default NavBar;

@@ -31,9 +31,9 @@ export default function ProductList({ searchResults, keyword = "", category, isS
   const displayProducts = isSearching ? safeResults : products;
 
   return (
-    <div className="flex justify-center px-32 py-12">
+    <div className="flex justify-center px-4 sm:px-10 md:px-20 lg:px-32 py-8">
       <div className="w-full min-w-7xl">
-        <h2 className="text-xl font-bold mb-4 flex justify-start">
+        <h2 className="text-xl font-bold mb-4 text-left">
           {isSearching ? (
             keyword ? (
               <>Search results for "<span className="text-violet-600">{keyword}</span>"</>
@@ -49,7 +49,7 @@ export default function ProductList({ searchResults, keyword = "", category, isS
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {noResult && (
             <p className="text-gray-500 mt-4 col-span-full text-center">
               {keyword ? (
