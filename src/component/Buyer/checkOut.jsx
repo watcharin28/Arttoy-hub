@@ -45,40 +45,58 @@ const Checkout = () => {
     console.log("Address object being sent:", address);
     console.log(items)
     const handlePayment = async () => {
-        console.log("Raw items:", items);
+  // 1) ดูโครงสร้าง raw items ก่อนว่า item มีฟิลด์อะไรบ้าง
+  console.log("Raw items:", items);
 
-        const payloadItems = items.map((i) => {
-            // ใช้ product.id (Product ID จริงๆ) ถ้ามี 
-            // ถ้าไม่มี (กรณี Buy Now) ค่อย fallback ไป i.id
-            const productId = i.product?.id || i.id;
-            return {
-                id: productId,
-                quantity: i.quantity || 1,
-            };
-        });
+  // 2) สร้าง payloadItems ให้ได้ Product ID จริง ๆ
+  const payloadItems = items.map((i) => {
+    // กรณีมาจาก Cart: product ID อยู่ใน i.product.id
+    if (i.product?.id) {
+      return { id: i.product.id, quantity: i.quantity || 1 };
+    }
+    // กรณีมาจาก Cart: product ID อยู่ใน i.product_id
+    if (i.product_id) {
+      return { id: i.product_id, quantity: i.quantity || 1 };
+    }
+    // กรณีมาจาก Buy Now: product ID อยู่ใน i.item.id
+    if (i.item?.id) {
+      return { id: i.item.id, quantity: i.quantity || 1 };
+    }
+    // กรณีมาจาก Buy Now: product ID อยู่ใน i._id
+    if (i._id) {
+      return { id: i._id, quantity: i.quantity || 1 };
+    }
+    // กรณี fallback (ถ้ามี i.id และ i.id = Product ID ในบางโครงสร้าง)
+    if (i.id) {
+      return { id: i.id, quantity: i.quantity || 1 };
+    }
+    // ถ้าไม่เจอ productId ใน item นั้น
+    console.warn("Cannot find productId in item:", i);
+    return { id: "", quantity: i.quantity || 1 };
+  });
 
-        console.log("Items being sent:", payloadItems);
+  console.log("Items being sent:", payloadItems);
 
-        try {
-            const payload = {
-                items: payloadItems,
-                address_id: address.id,
-            };
-            console.log("PAYLOAD", payload);
-
-            const res = await axios.post(
-                `${API_URL}/api/orders/qr`,
-                payload,
-                { withCredentials: true }
-            );
-
-            setOrderId(res.data.order_id);
-            setQrImage("/images/Qr.png");
-            setShowPaymentModal(true);
-        } catch (err) {
-            console.error("Create order failed:", err.response?.data || err.message);
-        }
+  try {
+    const payload = {
+      items: payloadItems,
+      address_id: address.id, // ตรวจสอบว่าตรงกับฟิลด์ที่ backend คาดไว้
     };
+    console.log("PAYLOAD", payload);
+
+    const res = await axios.post(
+      `${API_URL}/api/orders/qr`,
+      payload,
+      { withCredentials: true }
+    );
+
+    setOrderId(res.data.order_id);
+    setQrImage("/images/Qr.png");
+    setShowPaymentModal(true);
+  } catch (err) {
+    console.error("Create order failed:", err.response?.data || err.message);
+  }
+};
 
     const handleConfirmPayment = async () => {
         try {
