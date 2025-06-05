@@ -38,7 +38,7 @@ const SellerRegister = () => {
   const [bankName, setBankName] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -118,7 +118,7 @@ const SellerRegister = () => {
         withCredentials: true,
       });
 
-      if (response.data.message === "Register Successful") {
+      if (response.data.message === "Become seller success!") {
         setSuccess(true);
         setTimeout(() => {
           navigate('/seller');
@@ -265,12 +265,12 @@ const SellerRegister = () => {
                     onChange={(e) => setBankName(e.target.value)}
                     className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
                   >
-                    <option value="">-- กรุณาเลือกธนาคาร --</option>
-                    <option value="กสิกรไทย">กสิกรไทย</option>
-                    <option value="ไทยพาณิชย์">ไทยพาณิชย์</option>
-                    <option value="กรุงเทพ">กรุงเทพ</option>
-                    <option value="กรุงศรี">กรุงศรี</option>
-                    <option value="กรุงไทย">กรุงไทย</option>
+                    <option value="">Select Bank</option>
+                    <option value="กสิกรไทย">Kasikorn Bank</option>
+                    <option value="ไทยพาณิชย์">Siam Commercial Bank</option>
+                    <option value="กรุงเทพ">Bangkok Bank</option>
+                    <option value="กรุงศรี">Bank of Ayudhya </option>
+                    <option value="กรุงไทย">Krungthai Bank</option>
                   </select>
                 </div>
                 <div className="my-2">

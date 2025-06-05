@@ -57,7 +57,7 @@ export default function ProductList() {
 
   // กดดูรายละเอียดสินค้า เปลี่ยนหน้า
   const handleViewMore = (id) => {
-    navigate(`/products/${id}`);
+    navigate(`/product/${id}`);
   };
 
   return (

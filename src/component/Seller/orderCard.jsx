@@ -8,12 +8,11 @@ const statusColors = {
   completed: "bg-green-200 text-green-800",
 };
 
-export default function OrderCard({ order, onConfirm, onSubmitShipping, loading }) {
+export default function OrderCard({ order, onConfirm, onSubmitShipping, loading, hasActionButton = true }) {
   const [showShippingForm, setShowShippingForm] = useState(false);
   const [trackingNumber, setTrackingNumber] = useState("");
   const [shippingService, setShippingService] = useState("");
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const handleSubmitShipping = (e) => {
     e.preventDefault();
@@ -24,7 +23,7 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
 
     onSubmitShipping(order.id, {
       tracking_number: trackingNumber,
-      sender_name: shippingService
+      sender_name: shippingService,
     });
 
     setShowShippingForm(false);
@@ -32,17 +31,8 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
     setShippingService("");
   };
 
-
-  const handleViewDetail = () => {
-    if (order.items.length > 0) {
-      const product_id = order.items[0].item?.id;
-      if (product_id) {
-        navigate(`/product/${product_id}`);
-      }
-    }
-  };
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full transition hover:shadow-lg flex flex-col" onClick={handleViewDetail}>
+    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full transition hover:shadow-lg flex flex-col">
       {/* Card Header */}
       <div className={`flex justify-end px-4 py-2 ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
         <span className="px-3 py-1 rounded-full text-xs font-medium bg-white shadow-sm">
@@ -65,6 +55,14 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
             </div>
           </div>
         ))}
+        {order.shippingAddress && (
+          <div className="text-sm text-gray-700 mt-4">
+            <p className="font-semibold text-gray-800 mb-1">Shipping Address</p>
+            <p>{order.shippingAddress.name} ({order.shippingAddress.phone})</p>
+            <p>{order.shippingAddress.address}, {order.shippingAddress.subdistrict}, {order.shippingAddress.district},</p>
+            <p>{order.shippingAddress.province} {order.shippingAddress.zipcode}</p>
+          </div>
+        )}
       </div>
 
       {/* Tracking Info */}
@@ -96,8 +94,9 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
             <button
               onClick={() => onConfirm(order.id)}
               disabled={loading}
-              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${loading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
-                }`}
+              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${
+                loading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+              }`}
             >
               {loading ? "Loading..." : "Confirm Order"}
             </button>
@@ -106,12 +105,23 @@ export default function OrderCard({ order, onConfirm, onSubmitShipping, loading 
             <button
               onClick={() => setShowShippingForm(true)}
               disabled={loading}
-              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-                }`}
+              className={`text-white text-sm font-medium px-4 py-1 rounded-lg ${
+                loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+              }`}
             >
               {loading ? "Loading..." : "Enter Tracking Number"}
             </button>
           )}
+
+          {/* View Detail Button */}
+          {/* {order.items.length > 0 && order.items[0].item?.id && (
+            <button
+              onClick={() => navigate(`/product/${order.items[0].item.id}`)}
+              className="text-sm px-4 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800"
+            >
+              View Detail
+            </button>
+          )} */}
         </div>
       )}
 

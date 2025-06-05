@@ -56,7 +56,9 @@ export default function LikeList() {
 
       <div className="flex flex-col gap-4">
         {favorites && Array.isArray(favorites) && favorites.length > 0 ? (
-          favorites.map((item) => (
+          favorites
+          .filter((item) => !item.is_sold)
+          .map((item) => (
             <LikeCard
               key={item.id} 
               product_id={item.id} 

@@ -8,7 +8,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
   const API_URL = import.meta.env.VITE_API_URL;
   const [inputValue, setInputValue] = useState("");
   const handleSearch = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
     const keyword = inputValue.trim(); //ดึงค่าจาก input
     if (!keyword) {
@@ -27,8 +27,16 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
     }
   };
 
-  const goToCart = () => {
-    navigate('/cart');
+  const goToCart = async () => {
+    try {
+      await axios.get(`${API_URL}/api/user/Profile`, {
+        withCredentials: true,
+      });
+      navigate('/cart');
+    } catch (error) {
+      console.error("User not logged in:", error);
+      navigate('/login');
+    }
   };
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen); // เปลี่ยนสถานะเมนูโปรไฟล์
@@ -40,7 +48,7 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
 
       // เรียก API ลบ cookie/token ที่ backend
       await axios.post(`${API_URL}/api/user/logout`, {}, {
-        withCredentials: true, 
+        withCredentials: true,
       });
 
       // นำทางไปยังหน้า Login
@@ -49,9 +57,16 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
       console.error("Logout failed:", err.response?.data || err.message);
     }
   };
-  const handleMyProfile = () => {
-    console.log("My Profile clicked");
-    navigate('/profile'); // นำทางไปยังหน้าโปรไฟล์
+  const handleMyProfile = async () => {
+    try {
+      await axios.get(`${API_URL}/api/user/Profile`, {
+        withCredentials: true,
+      });
+      navigate('/profile');
+    } catch (error) {
+      console.error("User not logged in:", error);
+      navigate('/login');
+    }
   };
 
   const handleSelling = async () => {
@@ -67,7 +82,11 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
         navigate("/sellerRegister");
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      if (error.response?.status === 401) {
+        navigate('/login');
+      } else {
+        console.error("Error fetching profile:", error);
+      }
     }
   };
 

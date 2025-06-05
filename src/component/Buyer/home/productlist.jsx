@@ -74,6 +74,7 @@ export default function ProductList({ searchResults, keyword = "", category, isS
                 category={item.category}
                 model={item.model}
                 type={item.type}
+                seller_id={item.seller_id}
               />
             ))}
         </div>
