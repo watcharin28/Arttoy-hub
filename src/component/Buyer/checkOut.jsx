@@ -45,37 +45,33 @@ const Checkout = () => {
     console.log("Address object being sent:", address);
     console.log(items)
     const handlePayment = async () => {
-        console.log(items)
+        console.log("Raw items:", items);
 
         const payloadItems = items.map((i) => {
-            // ตรวจสอบตำแหน่งที่เก็บรหัสสินค้า (product ID)
-            const productId =
-                // กรณี “ซื้อเลย” จะใช้ i.id
-                i.id ||
-                // กรณี “ตะกร้า” อาจจะฝังไว้ใน i.item.id
-                i.item?.id ||
-                // กรณีสินค้าเก็บไว้ใน i.product._id
-                i.product?._id ||
-                "";
-
+            // ใช้ product.id (Product ID จริงๆ) ถ้ามี 
+            // ถ้าไม่มี (กรณี Buy Now) ค่อย fallback ไป i.id
+            const productId = i.product?.id || i.id;
             return {
                 id: productId,
                 quantity: i.quantity || 1,
             };
         });
+
         console.log("Items being sent:", payloadItems);
 
         try {
-            console.log("PAYLOAD", {
+            const payload = {
                 items: payloadItems,
-                address_id: address.id
-            });
-            const res = await axios.post(`${API_URL}/api/orders/qr`, {
-                items: payloadItems,
-                address_id: address.id
-            }, {
-                withCredentials: true,
-            });
+                address_id: address.id,
+            };
+            console.log("PAYLOAD", payload);
+
+            const res = await axios.post(
+                `${API_URL}/api/orders/qr`,
+                payload,
+                { withCredentials: true }
+            );
+
             setOrderId(res.data.order_id);
             setQrImage("/images/Qr.png");
             setShowPaymentModal(true);

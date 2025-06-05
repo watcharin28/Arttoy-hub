@@ -43,6 +43,7 @@ const ProductDetail = () => {
           `${API_URL}/api/products/${product_id}`,
           { withCredentials: true }
         );
+        
         setProduct(res.data);
         setReviews(res.data.reviews || []);
       } catch (err) {
