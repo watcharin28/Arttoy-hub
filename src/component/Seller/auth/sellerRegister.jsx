@@ -113,7 +113,7 @@ const SellerRegister = () => {
         formData.append("id_card_image", idCardImage);
       }
 
-      const response = await axios.post(`http://localhost:8080/api/user/become-seller`, formData, {
+      const response = await axios.post(`${API_URL}/api/user/become-seller`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

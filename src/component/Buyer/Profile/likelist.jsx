@@ -58,8 +58,8 @@ export default function LikeList() {
         {favorites && Array.isArray(favorites) && favorites.length > 0 ? (
           favorites.map((item) => (
             <LikeCard
-              key={item.id} // หรือใช้ item.product_id ถ้าใช้ชื่อเดียวกัน
-              product_id={item.id} // ใช้ชื่อ id หรือ product_id ขึ้นอยู่กับ API
+              key={item.id} 
+              product_id={item.id} 
               name={item.name}
               price={item.price}
               image={item.product_image?.[0]}
