@@ -40,8 +40,8 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
  return (
     <nav className="flex items-center justify-between h-20 bg-violet-400 shadow-md px-4 sm:px-8 sticky top-0 z-20">
       <div className="flex items-center">
-        <img src="/images/AThub.png" alt="Art Toy Hub" className="w-32 h-16" />
-        <h1 className='font-semibold text-white text-2xl'>Seller Centre</h1>
+        <img src="/images/AThub.png" alt="Art Toy Hub" className="md:w-32 md:h-16 w-24 h-12" />
+        <h1 className='font-semibold text-white text-xl md:text-2xl'>Seller Centre</h1>
       </div>
 
       {/* ส่วนของโปรไฟล์ */}
@@ -135,21 +135,6 @@ const Header = ({ searchQuery, setSearchQuery, setSearchResults, setIsSearching 
         )}
       </div>
 
-      {/* เมนูสำหรับมือถือ (จะซ่อนในหน้าจอใหญ่) */}
-      <div className="sm:hidden flex items-center">
-        <button className="text-gray-700">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
     </nav>
   );
 };

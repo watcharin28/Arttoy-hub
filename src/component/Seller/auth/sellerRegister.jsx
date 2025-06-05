@@ -10,6 +10,7 @@ const SellerRegister = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -40,6 +41,7 @@ const SellerRegister = () => {
   const [accountNumber, setAccountNumber] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -94,7 +96,6 @@ const SellerRegister = () => {
     setPageRegis((prev) => prev - 1);
   };
 
-  // แก้ไข handleSubmit ให้ส่ง formData พร้อมไฟล์
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateStep()) return;
@@ -113,7 +114,7 @@ const SellerRegister = () => {
         formData.append("id_card_image", idCardImage);
       }
 
-      const response = await axios.post(`http://localhost:8080/api/user/become-seller`, formData, {
+      const response = await axios.post(`${API_URL}/api/user/become-seller`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -122,7 +123,7 @@ const SellerRegister = () => {
         setSuccess(true);
         setTimeout(() => {
           navigate('/seller');
-        }, 2000); // รอ 2 วิค่อยไป Login
+        }, 2000);
       } else {
         setError(response.data.error || 'Register Failed!');
       }
@@ -137,10 +138,11 @@ const SellerRegister = () => {
 
   return (
     <div className="flex min-h-screen">
+      {/* ฝั่งฟอร์ม กินเต็มจอบนมือถือ ครึ่งจอบน desktop */}
       <div className="w-full md:w-1/2 bg-violet-300 min-h-screen flex items-center justify-center px-4 md:px-12 lg:px-24">
         <form
           onSubmit={handleSubmit}
-          className="px-16 py-10 bg-white rounded-2xl shadow-lg w-full min-h-[700px] flex flex-col"
+          className="md:px-16 md:py-8 px-6 py-4 bg-white rounded-2xl shadow-lg w-full min-h-[700px] flex flex-col"
           noValidate
         >
           <div className="flex flex-col items-center">
@@ -170,8 +172,8 @@ const SellerRegister = () => {
 
             {pageRegis === 1 && (
               <>
-                <div className="my-2">
-                  <label className="text-gray-500" htmlFor="firstName">First Name</label>
+                <div className="md:my-1">
+                  <label className="text-gray-500 md:text-md text-sm" htmlFor="firstName">First Name</label>
                   <input
                     id="firstName"
                     type="text"
@@ -181,8 +183,8 @@ const SellerRegister = () => {
                     className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
                   />
                 </div>
-                <div className="my-2">
-                  <label className="text-gray-500" htmlFor="lastName">Last Name</label>
+                <div className="md:my-1">
+                  <label className="text-gray-500 md:text-md text-sm" htmlFor="lastName">Last Name</label>
                   <input
                     id="lastName"
                     type="text"
@@ -192,8 +194,8 @@ const SellerRegister = () => {
                     className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
                   />
                 </div>
-                <div className="my-2">
-                  <label className="text-gray-500" htmlFor="nationalID">National ID</label>
+                <div className="md:my-1">
+                  <label className="text-gray-500 md:text-md text-sm" htmlFor="nationalID">National ID</label>
                   <input
                     id="nationalID"
                     type="text"
@@ -204,10 +206,10 @@ const SellerRegister = () => {
                     className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
                   />
                 </div>
-                <div className="my-2">
-                  <label className="text-gray-500 block mb-1">Image National Card</label>
+                <div className="my-">
+                  <label className="text-gray-500 block mb-1 md:text-md text-sm">Image National Card</label>
 
-                  <div className="mb-4 mx-auto border-2 border-dashed border-gray-400 p-4 rounded-lg">
+                  <div className="mx-auto border-2 border-dashed border-gray-400 p-4 rounded-lg">
                     <div className="flex items-center space-x-4">
                       <label
                         htmlFor="fileInput"
@@ -258,23 +260,23 @@ const SellerRegister = () => {
             {pageRegis === 2 && (
               <>
                 <div className="my-2">
-                  <label className="text-gray-500" htmlFor="bankName">Bank Name</label>
+                  <label className="text-gray-500 md:text-md text-sm" htmlFor="bankName">Bank Name</label>
                   <select
                     id="bank_name"
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
                     className="bg-slate-200 w-full p-2 rounded-lg border focus:outline-none focus:border-violet-400"
                   >
-                    <option value="">-- กรุณาเลือกธนาคาร --</option>
-                    <option value="กสิกรไทย">กสิกรไทย</option>
-                    <option value="ไทยพาณิชย์">ไทยพาณิชย์</option>
-                    <option value="กรุงเทพ">กรุงเทพ</option>
-                    <option value="กรุงศรี">กรุงศรี</option>
-                    <option value="กรุงไทย">กรุงไทย</option>
+                    <option value="">Select Bank</option>
+                    <option value="กสิกรไทย">Kasikorn Bank</option>
+                    <option value="ไทยพาณิชย์">Siam Commercial Bank</option>
+                    <option value="กรุงเทพ">Bangkok Bank</option>
+                    <option value="กรุงศรี">Bank of Ayudhya </option>
+                    <option value="กรุงไทย">Krungthai Bank</option>
                   </select>
                 </div>
                 <div className="my-2">
-                  <label className="text-gray-500" htmlFor="accountName">Bank Account Name</label>
+                  <label className="text-gray-500 md:text-md text-sm" htmlFor="accountName">Bank Account Name</label>
                   <input
                     id="accountName"
                     type="text"
@@ -285,7 +287,7 @@ const SellerRegister = () => {
                   />
                 </div>
                 <div className="my-2">
-                  <label className="text-gray-500" htmlFor="accountNumber">Bank Account Number</label>
+                  <label className="text-gray-500 md:text-md text-sm" htmlFor="accountNumber">Bank Account Number</label>
                   <input
                     id="accountNumber"
                     type="text"
@@ -344,18 +346,26 @@ const SellerRegister = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-[48%] bg-green-500 text-white py-2 rounded hover:bg-green-700 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-[48%] bg-violet-400 text-white py-2 rounded hover:bg-violet-600"
                   disabled={loading}
                 >
-                  {loading ? "Registering..." : "Register"}
+                  {loading ? "Loading..." : "Submit"}
                 </button>
               </div>
+            )}
+
+            {error && (
+              <p className="mt-4 text-red-600 text-center">{error}</p>
+            )}
+            {success && (
+              <p className="mt-4 text-green-600 text-center">Register Successful! Redirecting...</p>
             )}
           </div>
         </form>
       </div>
 
-      <div className="w-1/2 bg-violet-300 relative flex  flex-col ">
+      {/* ฝั่งรูปภาพซ่อนบนมือถือ */}
+      <div className="hidden md:flex w-1/2 bg-violet-300 relative flex-col">
         <div className="flex-1 flex items-center justify-center relative">
           <img
             src="/images/dino.png"

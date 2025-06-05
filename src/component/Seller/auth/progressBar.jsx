@@ -1,49 +1,32 @@
 import React from "react";
 
 const StepProgress = ({ currentPage }) => {
-const UserIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
-</svg>
+  const UserIcon = (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+    </svg>
 
-);
+  );
 
-const PencilIcon = (
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-</svg>
+  const PencilIcon = (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+    </svg>
 
-);
+  );
 
-const CreditCardIcon = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="size-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="1.5"
-  >
-    <rect
-      width="18"
-      height="12"
-      x="3"
-      y="6"
-      rx="2"
-      ry="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18" />
-  </svg>
-);
+  const CreditCardIcon = (
+    <svg xmlns="http://www.w3.org/2000/svg" className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+      <rect width="18" height="12" x="3" y="6" rx="2" ry="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18" />
+    </svg>
+  );
 
-// แล้วเอามาใช้ใน steps แบบนี้:
-const steps = [
-  { id: 1, title: "Store Information", baseIcon: UserIcon },
-  { id: 2, title: "Verify Identity", baseIcon: PencilIcon },
-  { id: 3, title: "Account Payment", baseIcon: CreditCardIcon },
-];
+  const steps = [
+    { id: 1, title: "Store Information", baseIcon: UserIcon },
+    { id: 2, title: "Verify Identity", baseIcon: PencilIcon },
+    { id: 3, title: "Account Payment", baseIcon: CreditCardIcon },
+  ];
 
   const getStatus = (index) => {
     if (index < currentPage) return "completed";
@@ -52,18 +35,10 @@ const steps = [
   };
 
   const CheckIcon = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6 text-white"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={3}
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-  </svg>
-);
-
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+  );
 
   const statusStyles = {
     completed: {
@@ -90,7 +65,7 @@ const steps = [
   };
 
   return (
-    <div className="flex items-center justify-between max-w-5xl px-2 my-6">
+    <div className="flex items-center justify-between max-w-5xl px-2 my-4 mx-auto w-full">
       {steps.map((step, index) => {
         const status = getStatus(index);
         const style = statusStyles[status];
@@ -119,9 +94,7 @@ const steps = [
             )}
 
             <div className="text-center mt-3">
-              <p className="text-xs font-semibold text-gray-500 tracking-widest">
-                STEP {step.id}
-              </p>
+              <p className="text-xs font-semibold text-gray-500 tracking-widest">STEP {step.id}</p>
               <p className="text-sm font-semibold text-gray-800">{step.title}</p>
             </div>
           </div>
