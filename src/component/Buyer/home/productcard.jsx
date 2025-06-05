@@ -12,11 +12,12 @@ export default function ProductCard({ product_id, name, price, image, category, 
 
   useEffect(() => {
     const token = Cookies.get("token");
+    console.log("Token from cookie:", token);
     if (token) {
       try {
         const decoded = jwt_decode(token);
         setUserId(decoded.user_id);
-
+        console.log("Decoded JWT:", decoded);
         axios.get(`${API_URL}/api/user/favorites/status/${product_id}`, {
           withCredentials: true,
         })
@@ -33,23 +34,25 @@ export default function ProductCard({ product_id, name, price, image, category, 
   }, [product_id]);
 
   const handleLike = async () => {
-    if (!user_id) {
-      alert("Please login to like the product");
-      return;
-    }
+  if (!user_id) {
+    alert("Please login to like the product");
+    console.log("User ID missing");
+    return;
+  }
 
-    try {
-      await axios.post(
-        `${API_URL}/api/user/favorites/${product_id}`,
-        {},
-        { withCredentials: true }
-      );
-      setLiked(!liked);
-    } catch (err) {
-      console.error("Failed to like product:", err);
-      alert("An error occurred while liking the product");
-    }
-  };
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/user/favorites/${product_id}`,
+      {},
+      { withCredentials: true }
+    );
+    console.log("Like response:", res.data);
+    setLiked(!liked);
+  } catch (err) {
+    console.error("Failed to like product:", err.response || err.message);
+    alert("An error occurred while liking the product");
+  }
+};
 
   const handleViewDetail = () => {
     navigate(`/product/${product_id}`);
