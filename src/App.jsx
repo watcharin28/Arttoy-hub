@@ -10,6 +10,7 @@ import ProductDetailPage from './pages/ProductDetail';
 import CheckOutPage from './pages/CheckOut';
 import CartPage from './pages/Cart';
 import SellerStoreDetailPage from './pages/SellerStore';
+import ShippingPage from './pages/Shipping';
 
 function App() {
     return (
@@ -25,6 +26,8 @@ function App() {
                 <Route path="/checkout" element={<CheckOutPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/seller-store/:seller_id" element={<SellerStoreDetailPage />} />
+                <Route path="/shipping" element={<ShippingPage />} />
+                
                 
             </Routes>
         </div>
